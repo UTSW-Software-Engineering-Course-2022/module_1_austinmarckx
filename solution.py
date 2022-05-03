@@ -69,16 +69,13 @@ class TSNE:
         self.arr1DGains = np.ones((arrNxdInput.shape[0], intNDims))
         self.arr1DDeltaY = np.zeros((arrNxdInput.shape[0], intNDims))
         self.arrNxNSquareEucDist = self.SquareEucDist(arrNxdInput)
-        self.arrNxNDimsOutput = arrNxdInput[:, 0:2]
+        self.arrNxNDimsOutput = arrNxdInput[:,:intNDims]
         self.arr1DBeta = None
         self.arrNxNInputProbs = None
         self.H = None
 
     def SquareEucDist(self, array_nxm: np.array):
         """Pairwise Squared Euclidian distance
-
-
-
         """
         Xsum = np.sum(np.square(array_nxm), axis=1)
         twoXiXj = 2 * np.dot(array_nxm, array_nxm.T)
@@ -88,22 +85,22 @@ class TSNE:
     def GetAdjustedBeta(self):
         """ Get the beta using tolerance and perplexity
         """
-        self.arrInputProbs, self.beta = adjustbeta(
+        self.arrInputProbs, self.arr1DBeta = adjustbeta(
             self.arrNxdInput,
             self.dTolerance,
             self.dPerplexity,
             self.arrNxNSquareEucDist,
         )
-        return self.arrInputProbs, self.beta
+        return self.arrInputProbs, self.arr1DBeta
 
     def Calc_p_ij(self):
-        """ Probability matrix
+        """ Probability matrix from Input Gaussian
         """
         # Set diag to 0.0
         np.fill_diagonal(self.arrInputProbs, 0.0)
         # Calc Pij from Probability matrix P
         num = self.arrInputProbs + self.arrInputProbs.T
-        denom = np.sum(np.sum(num, axis=1), axis=0)
+        denom = np.sum(num)
         # Num / denom; exaggerate (*4) and clip (1e-12)
         self.arrInputProbs_ij_mat = 4 * (num / denom) + 1e-12
         return self.arrInputProbs_ij_mat
