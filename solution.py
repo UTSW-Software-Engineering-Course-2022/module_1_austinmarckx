@@ -1,11 +1,8 @@
 """ Start of file doc string
 
-
-# TODO: Get KL Divergence implemented
 """
 
 # Imports
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 from tsne import pca
