@@ -32,11 +32,18 @@ class TSNE:
         intInitalMomentumSteps : `int` = 20
             Number of iterations with initial momentum
         dTolerance: `float`, default = 1e-5
+            #TODO Figure out what tolerance is
         dMinGain : `float`, default = 0.01
+            #TODO Figure out what tolerance is
         intStepSize : `int`, default = 500
+            inital step size of gradient descent
         dMinProb : `float`, default = 1e-12
-        intEarlyExaggeration : `float`, default = 4
+            Clip value for probabilities.  This factor is added to all values of probability array.
+        intEarlyExaggerationFactor : `float`, default = 4
+            Optimization exaggerates early steps to allow larger movements.
+            If `intEarlyExaggerationFactor = 1`, there is no exaggeration
         intNumExaggerationSteps : `int`, default = 100
+            Number of steps before exaggeration factor is removed from p_ij
         intMaxIter : `int`, default = 1000
             Number of TSNE iterations
         intUpdateStepSize: `int`, default = 10
@@ -47,15 +54,15 @@ class TSNE:
         SquareEucDist
             Calculate the pairwise squared euclidean distance of input m x n array.
         GetAdjustedBeta
-            Calculate the probability matrix from pairwise distances and determine the precision (beta)
+            Calculate the conditional probability matrix from pairwise distances and determine the precision (beta)
         Calc_p_ij
-            d
+            Probability array representing distance via Gaussian distribution
         Calc_q_ij
-            d
+            Probability array representing distance via t-distribution
         Calc_dY
-            d
+            Calculate the gradient of 
         Calc_gains
-            d
+            #TODO figure out what gains are
         TSNE
             Default implementation of TSNE.  Returns dimension reduced array.
     """
@@ -73,11 +80,11 @@ class TSNE:
         intStepSize: int = 500,
         dMinGain: float = 0.01,
         dMinProb: float = 1e-12,
-        intEarlyExaggeration: float = 4,
+        dEarlyExaggerationFactor: float = 4,
         intNumExaggerationSteps: int = 100,
         intUpdateStepSize: int = 10,
     ):
-        """Initialize all variables"""
+        # Initalize all variables
         self.arrNxdInput = arrNxdInput
         self.intNDims = intNDims
         self.dPerplexity = dPerplexity
@@ -86,7 +93,7 @@ class TSNE:
         self.dTolerance = dTolerance
         self.dMinGain = dMinGain
         self.dMinProb = dMinProb
-        self.dEarlyExaggeration = intEarlyExaggeration
+        self.dEarlyExaggerationFactor = dEarlyExaggerationFactor
         self.intNumExaggerationSteps = intNumExaggerationSteps
         self.intInitalMomentumSteps = intInitalMomentumSteps
         self.intUpdateStepSize = intUpdateStepSize
@@ -98,6 +105,7 @@ class TSNE:
         self.arrNxNDimsOutput = arrNxdInput[:, :intNDims]
         self.arr1DBeta = None
         self.arrNxNInputProbs = None
+        self.KLDiv = None
 
     def SquareEucDist(self, array_nxd: np.ndarray) -> np.ndarray:
         """Pairwise Squared Euclidian distance
@@ -146,7 +154,7 @@ class TSNE:
         return self.arrInputProbs, self.arr1DBeta
 
     def Calc_p_ij(self) -> np.ndarray:
-        """ Probability matrix from Input Gaussian
+        """ Gaussian probability matrix from input array pairwise distances
         .. math::
             p_{ij} = \frac{p_{j|i} + p_{i|j}}/{\sum_{k \neq l}p_{k|l} + p_{l|k}}
             where:
@@ -161,7 +169,7 @@ class TSNE:
 
         Notes
         -----
-        By default the returned prob array is clipped to `self.dMinProb` and exaggerated by `self.dEarlyExaggeration`
+        By default the returned prob array is clipped to `self.dMinProb` and exaggerated by `self.dEarlyExaggerationFactor`
         """
         # Set diag to 0.0
         np.fill_diagonal(self.arrInputProbs, 0.0)
@@ -170,7 +178,7 @@ class TSNE:
         denom = np.sum(num)
         # Num / denom; exaggerate (*4) and clip (1e-12)
         self.arrInputProbs_ij_mat = (
-            self.dEarlyExaggeration * (num / denom) + self.dMinProb
+            self.dEarlyExaggerationFactor * (num / denom) + self.dMinProb
         )
         return self.arrInputProbs_ij_mat
 
@@ -211,8 +219,19 @@ class TSNE:
         ) + (self.arr1DGains * 0.8) * ((self.dY > 0.0) == (self.arr1DDeltaY > 0.0))
         return self.arr1DGains
 
+    def KLDivergence(self):
+        """Calculate the KL Divergence for the current step"""
+        self.KLDiv = np.sum(self.arrInputProbs_ij_mat * np.log(self.arrInputProbs_ij_mat / self.q_ij_mat))
+        return self.KLDiv
+
     def TSNE(self) -> np.ndarray:
-        """Do the TSNE"""
+        """TSNE
+        
+        Returns
+        -------
+        arrNxNDimsOutput : np.ndarray
+            The dimensionally reduced output array
+        """
         self.SquareEucDist(self.arrNxdInput)
         self.GetAdjustedBeta()
         self.Calc_p_ij()
@@ -235,11 +254,12 @@ class TSNE:
             if i == self.intNumExaggerationSteps:
                 # Remove early exaggeration
                 self.arrInputProbs_ij_mat = (
-                    self.arrInputProbs_ij_mat / self.dEarlyExaggeration
+                    self.arrInputProbs_ij_mat / self.dEarlyExaggerationFactor
                 )
 
             if i % self.intUpdateStepSize == 0:
-                print(i)
+                KLDiv = self.KLDivergence()
+                print(f'Step: {i}     KLDiv: {KLDiv}')
         return self.arrNxNDimsOutput
 
 
@@ -249,7 +269,7 @@ if __name__ == "__main__":
     X = np.loadtxt("mnist2500_X.txt")
     X = pca(X, 50)
     labels = np.loadtxt("mnist2500_labels.txt")
-    tsne = TSNE(X)
+    tsne = TSNE(X, intMaxIter=100)
     Y = tsne.TSNE()
 
     plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
