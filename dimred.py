@@ -1,7 +1,8 @@
 """Usage: 
-    dimred.py tsne <datafilepath> <labelsfilepath>
     dimred.py tsne [options] 
-    dimred.py graphdr [options] 
+    dimred.py tsne <datafilepath> <labelsfilepath>
+    dimred.py graphdr [options]
+    dimred.py graphdr <datafilepath> <labelsfilepath> 
 
 options:
     -p --plot=<bool>   Plot the output          [default: True]
@@ -28,6 +29,7 @@ from scipy.sparse.csgraph import laplacian
 from scipy.sparse import eye
 from helperfun import adjustbeta, pca
 from docopt import docopt
+
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -282,6 +284,7 @@ class TSNE:
                 print(f"Step: {i}     KLDiv: {KLDiv}")
         return self.arrNxNDimsOutput
 
+
 class GraphDR:
     """ GraphDR Quasilinear Dimensionality Reduction
    
@@ -420,6 +423,7 @@ class GraphDR:
             )
         return self.pdfGraphDROutput
 
+
 def plot(
     df,
     intX=0,
@@ -429,9 +433,9 @@ def plot(
     bool3D=False,
     boolSaveFig=False,
     boolSaveToHTML=True,
-    dMarkerSize = 1.0
+    dMarkerSize=1.0,
 ):
-    """ Simple Scatter plot options
+    """ Simple 2D and 3D Scatter plot options
     """
     # 3D Scatter plot
     if bool3D:
@@ -453,41 +457,61 @@ def plot(
 def main():
     args = docopt(__doc__)
 
-    if bool(args['tsne']):
+    if bool(args["tsne"]):
         # Demo version
-        if args['--demo'] == True:
-            print('Welcome to TSNE Demo!')
-            X = np.loadtxt('./data/demo_mnist2500_X.txt')
-            labels = np.loadtxt('./data/demo_mnist2500_labels.txt').astype(str)
+        if args["--demo"] == True:
+            print("Welcome to TSNE Demo!")
+            X = np.loadtxt("./data/demo_mnist2500_X.txt")
+            labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
             X = pca(X, 50)
             tsne = TSNE(X, intMaxIter=10)
             Z = tsne.TSNE()
-            if args['--plot']:
-                plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'], dMarkerSize = 5)
+            if args["--plot"]:
+                plot(
+                    Z,
+                    labels=labels,
+                    boolSaveFig=args["--save"],
+                    boolSaveToHTML=args["--htmlPlot"],
+                    dMarkerSize=5,
+                )
+        # Perform on filepath inputs
         else:
-            X = np.loadtxt(args['<datafilepath>'])
-            labels = np.loadtxt(args['<labelsfilepath>']).astype(str)
+            X = np.loadtxt(args["<datafilepath>"])
+            labels = np.loadtxt(args["<labelsfilepath>"]).astype(str)
             X = pca(X, 50)
             tsne = TSNE(X, intMaxIter=20)
             Z = tsne.TSNE()
-            if args['--plot']:
-                plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'], dMarkerSize = 5)
+            if args["--plot"]:
+                plot(
+                    Z,
+                    labels=labels,
+                    boolSaveFig=args["--save"],
+                    boolSaveToHTML=args["--htmlPlot"],
+                    dMarkerSize=5,
+                )
 
-
-            print('Non-demo version is a WIP')
-            # Non-demo version
-            # if args['--plot']:
-            #     plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
-
-    elif bool(args['graphdr']):
-        if args['--demo'] == True:
-            print('Welcome to GraphDR Demo!')
-        GDR = GraphDR(boolDemo=args['--demo'])
+    elif bool(args["graphdr"]):
+        # Demo Version
+        if args["--demo"] == True:
+            print("Welcome to GraphDR Demo!")
+            GDR = GraphDR(boolDemo=args["--demo"])
+        # Perform on filepath inputs
+        else:
+            GDR = GraphDR(
+                strDataFilePath=args["<datafilepath>"],
+                strAnnoFilePath=args["<labelsfilepath>"],
+            )
         Z = GDR.GraphDR()
         labels = GDR.pdfAnno
-        if args['--plot']:
-            plot(Z, labels=labels,bool3D=args['--plot3d'], boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
+        if args["--plot"]:
+            plot(
+                Z,
+                labels=labels,
+                bool3D=args["--plot3d"],
+                boolSaveFig=args["--save"],
+                boolSaveToHTML=args["--htmlPlot"],
+            )
 
-    
+
 if __name__ == "__main__":
     main()

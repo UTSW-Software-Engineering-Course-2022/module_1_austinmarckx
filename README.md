@@ -113,9 +113,10 @@ pip install -r requirements.txt
 ```sh
 # CLI Usage
 Usage:
-  dimred.py tsne <datafilepath> <labelsfilepath>
   dimred.py tsne [options] 
+  dimred.py tsne <datafilepath> <labelsfilepath>
   dimred.py graphdr [options] 
+  dimred.py graphdr <datafilepath> <labelsfilepath>
 
 options:
     -p --plot=<bool>   Plot the output          [default: True]
@@ -146,7 +147,7 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 
 GraphDR
 ```sh
-# Demo Data:
+### Demo Data:
 # 2D Html output
 python dimred.py graphdr --demo=True
 # 3D Html output
@@ -175,8 +176,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [x] Separate into folders
         - data
         - images
-- [ ] Implement GraphDR
-- [ ] Implement Plotly
+- [x] Implement GraphDR
+- [ ] Document GraphDR
+- [x] Implement Plotly
 - [ ] Implement Dash interface
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
@@ -204,6 +206,8 @@ Project Link: [https://github.com/UTSW-Software-Engineering-Course-2022/module_1
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
+
+Huge thanks goes out to this module's instructor and TA!
 
 * [Dr. Jian Zhou](jian.zhou@utsouthwestern.edu)
 * [Chenlai Shi](chenlai.shi@utsouthwestern.edu)
