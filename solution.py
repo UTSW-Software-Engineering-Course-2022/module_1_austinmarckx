@@ -1,13 +1,19 @@
-""" Start of file doc string
+"""Usage: solution.py tsne <datafilepath> <labelsfilepath>
+
+datafilepath:
+    --datafilepath=<str>  read in data from file path
+
+labelsfilepath:    
+    --labelsfilepath=<str> read in labels from file path
 
 """
 
 # Imports
 import numpy as np
 import matplotlib.pyplot as plt
+from docopt import docopt
 from tsne import pca
 from adjustbeta import Hbeta, adjustbeta
-
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -57,9 +63,9 @@ class TSNE:
         Calc_q_ij
             Probability array representing distance via t-distribution
         Calc_dY
-            Calculate the gradient of 
+            Calculate the gradient of ...
         Calc_gains
-            #TODO figure out what gains are
+            #TODO figure out what gains are ...
         TSNE
             Default implementation of TSNE.  Returns dimension reduced array.
     """
@@ -162,7 +168,7 @@ class TSNE:
         Returns
         -------
         arrInputProbs_ij_mat : np.ndarray
-            Array (n,n) containing the probabilities derived from the gaussian of 
+            Gaussian representation fo pairwise distance probabilies 
 
         Notes
         -----
@@ -259,15 +265,27 @@ class TSNE:
                 print(f'Step: {i}     KLDiv: {KLDiv}')
         return self.arrNxNDimsOutput
 
+def main():
+    args = docopt(__doc__)
+    
+    print(f"Loading data from file {args['<datafilepath>']}...")
+    X = np.loadtxt(args['<datafilepath>'])
+    print('load successful.')
+    print('performing pca...')
+    X = pca(X, 50)
+    print('pca complete...')
 
-if __name__ == "__main__":
+    labels = np.loadtxt(args['<labelsfilepath>'])
+    print('labels loaded successfully...')
+    
     print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
     print("Running example on 2,500 MNIST digits...")
-    X = np.loadtxt("mnist2500_X.txt")
-    X = pca(X, 50)
-    labels = np.loadtxt("mnist2500_labels.txt")
-    tsne = TSNE(X, intMaxIter=100)
+    tsne = TSNE(X, intMaxIter=1000)
     Y = tsne.TSNE()
 
     plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
     plt.savefig("mnist_tsne.png")
+
+
+if __name__ == "__main__":
+    main()
