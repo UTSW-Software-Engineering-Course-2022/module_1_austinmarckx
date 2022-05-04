@@ -124,12 +124,18 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Full CLI implementation with TSNE variables
+- [ ] Full CLI implementation 
+    - [ ] TSNE attributes
+    - [ ] 
 - [ ] 'Demo' version
 - [ ] Figure out how to document complicated things
     - [ ] Gains
     - [ ] Beta/Perplexity
     - [ ] Tolerance
+- [ ] Clean repo
+    - [ ] Separate into folders
+        - data
+        - images
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
