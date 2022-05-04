@@ -1,4 +1,4 @@
-"""Usage: solution.py tsne <datafilepath> <labelsfilepath>
+"""Usage: dimred.py tsne <datafilepath> <labelsfilepath>
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -11,8 +11,8 @@ labelsfilepath:
 # Imports
 import numpy as np
 import matplotlib.pyplot as plt
+from helperfun import adjustbeta, pca
 from docopt import docopt
-from helperfun import pca, adjustbeta
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -279,12 +279,11 @@ def main():
     
     print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
     print("Running example on 2,500 MNIST digits...")
-    tsne = TSNE(X, intMaxIter=1000)
+    tsne = TSNE(X, intMaxIter=100)
     Y = tsne.TSNE()
 
     plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
     plt.savefig("mnist_tsne.png")
-
 
 if __name__ == "__main__":
     main()
