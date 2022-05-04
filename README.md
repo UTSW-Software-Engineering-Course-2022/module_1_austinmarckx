@@ -110,7 +110,9 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-CLI Usage:
+```sh
+# CLI Usage
+Usage:
   dimred.py tsne <datafilepath> <labelsfilepath>
   dimred.py tsne [options] 
   dimred.py graphdr [options] 
@@ -127,12 +129,9 @@ datafilepath:
 
 labelsfilepath:    
     --labelsfilepath=<str> read in labels from file path
+```
 
 Examples:
-
-```sh
-python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt
-```
 
 TSNE
 ```sh
