@@ -1,8 +1,8 @@
 """Usage: 
     dimred.py tsne [options] 
-    dimred.py tsne <datafilepath> <labelsfilepath>
+    dimred.py tsne <datafilepath> <labelsfilepath> [options]
     dimred.py graphdr [options]
-    dimred.py graphdr <datafilepath> <labelsfilepath> 
+    dimred.py graphdr <datafilepath> <labelsfilepath> [options]
 
 options:
     -p --plot=<bool>   Plot the output          [default: True]
@@ -450,7 +450,7 @@ def plot(
             fig.write_html("fig1.html")
         else:
             fig.write_image("fig1.jpeg")
-
+    
     fig.show()
 
 
