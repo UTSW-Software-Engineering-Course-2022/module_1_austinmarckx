@@ -1,12 +1,11 @@
 """Usage: 
-    dimred.py tsne [tsne-options] <datafilepath> <labelsfilepath>
-    dimred.py graphdr [graphdr-options] <datafilepath> <labelsfilepath>
+    dimred.py tsne [options] <datafilepath> <labelsfilepath>
+    dimred.py graphdr [options] 
 
-tsne-options:
-    -p --plot   Plot the output 
-
-graphdr-options:
-    -p --plot   Plot the output
+options:
+    -p --plot=<bool>   Plot the output          [default: True]
+    -s --save=<bool>   Save plot                [default: True]
+    --htmlPlot=<bool>  Plot saved as html       [default: True]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -450,23 +449,32 @@ def plot(
 def main():
     args = docopt(__doc__)
 
-    print(f"Loading data from file {args['<datafilepath>']}...")
-    X = np.loadtxt(args["<datafilepath>"])
-    print("load successful.")
-    print("performing pca...")
-    X = pca(X, 50)
-    print("pca complete...")
+    if bool(args['tsne']):
+        print(f"Loading data from file {args['<datafilepath>']}...")
+        X = np.loadtxt(args["<datafilepath>"])
+        print("load successful.")
+        print("performing pca...")
+        X = pca(X, 50)
+        print("pca complete...")
 
-    labels = np.loadtxt(args["<labelsfilepath>"])
-    print("labels loaded successfully...")
+        labels = np.loadtxt(args["<labelsfilepath>"])
+        print("labels loaded successfully...")
 
-    print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
-    print("Running example on 2,500 MNIST digits...")
-    tsne = TSNE(X, intMaxIter=100)
-    Y = tsne.TSNE()
+        print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
+        print("Running example on 2,500 MNIST digits...")
+        tsne = TSNE(X, intMaxIter=100)
+        Z = tsne.TSNE()
+        
+        if args['--plot']:
+            plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
 
-    plot(Y, labels=labels, saveFig=True, saveToHTML=False)
+    elif bool(args['graphdr']):
+        GDR = GraphDR(boolDemo=True)
+        Z = GDR.GraphDR()
+        labels = GDR.pdfAnno
+        if args['--plot']:
+            plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
 
-
+    
 if __name__ == "__main__":
     main()
