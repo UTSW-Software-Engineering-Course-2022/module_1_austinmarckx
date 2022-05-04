@@ -1,4 +1,5 @@
 """Usage: dimred.py tsne <datafilepath> <labelsfilepath>
+          dimred.py graphdr <datafilepath> <labelsfilepath>
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -9,10 +10,17 @@ labelsfilepath:
 """
 
 # Imports
+from time import gmtime
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.neighbors import kneighbors_graph
+from scipy.sparse.csgraph import laplacian
+from scipy.sparse import eye
 from helperfun import adjustbeta, pca
 from docopt import docopt
+
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -223,7 +231,10 @@ class TSNE:
 
     def KLDivergence(self):
         """Calculate the KL Divergence for the current step"""
-        self.KLDiv = np.sum(self.arrInputProbs_ij_mat * np.log(self.arrInputProbs_ij_mat / self.q_ij_mat))
+        self.KLDiv = np.sum(
+            self.arrInputProbs_ij_mat
+            * np.log(self.arrInputProbs_ij_mat / self.q_ij_mat)
+        )
         return self.KLDiv
 
     def TSNE(self) -> np.ndarray:
@@ -261,22 +272,163 @@ class TSNE:
 
             if i % self.intUpdateStepSize == 0:
                 KLDiv = self.KLDivergence()
-                print(f'Step: {i}     KLDiv: {KLDiv}')
+                print(f"Step: {i}     KLDiv: {KLDiv}")
         return self.arrNxNDimsOutput
+
+
+class GraphDR:
+    """ GraphDR Quasilinear Dimensionality Reduction
+   
+    Attributes:
+    ----------
+        arrNxdInput : `np.ndarray` 
+            Input array (n,d).  Should contain numerical data.
+        intNDims : `int`, default = 2
+            Number of columns in the output array
+        intStepSize : `int`, default = 500
+            inital step size of gradient descent
+
+    Methods
+    -------
+        preprocess
+
+        GraphDR
+
+    """
+
+    def __init__(
+        self,
+        pdfInput=None,
+        pdfAnno=None,
+        intNDims: int = None,
+        intKNeighbors: int = 10,
+        dLambdaRegularization: float = 10,
+        boolNoRotation: bool = True,
+        strDataFilePath: str = None,
+        strAnnoFilePath: str = None,
+        boolPreprocessData: bool = True,
+        boolPCA: bool = True,
+        intPCANumComponents: int = 20,
+        boolDemo: bool = True,
+    ) -> None:
+        # Init everything
+        self.pdfInput = pdfInput
+        self.pdfAnno = pdfAnno
+        self.intNDims = intNDims
+        self.intKNeighbors = intKNeighbors
+        self.boolNoRotation = boolNoRotation
+        self.dLambdaRegularization = dLambdaRegularization
+        self.strDataFilePath = strDataFilePath
+        self.strAnnoFilePath = strAnnoFilePath
+        self.pdfGraphDROutput = None
+
+        # Demo mode
+        if boolDemo:
+            self.pdfInput = pd.read_csv(
+                "./data/hochgerner_2018.data.gz", sep="\t", index_col=0
+            )
+            self.pdfAnno = pd.read_csv(
+                "./data/hochgerner_2018.anno", sep="\t", header=None
+            )[1].values
+
+        # If file paths provided
+        if self.strDataFilePath:
+            self.pdfInput = pd.read_csv(self.strDataFilePath, sep="\t", index_col=0)
+        if self.strAnnoFilePath:
+            self.pdfAnno = pd.read_csv(self.strAnnoFilePath, sep="\t", header=None)[
+                1
+            ].values
+
+        # If Preprocess
+        if boolPreprocessData:
+            self.pdfInput = self.preprocess(self.pdfInput, boolPCA, intPCANumComponents)
+
+        # Check for nDims
+        if intNDims:
+            self.intNDims = intNDims
+        else:
+            self.intNDims = self.pdfInput.shape[1]
+
+    def preprocess(self, pdfInput, boolPCA: bool, intPCANumDims: int):
+        """ Provided preprocessing
+        
+        """
+        # We will first normalize each cell by total count per cell.
+        percell_sum = pdfInput.sum(axis=0)
+        pergene_sum = pdfInput.sum(axis=1)
+
+        preprocessed_data = (
+            pdfInput / percell_sum.values[None, :] * np.median(percell_sum)
+        )
+        preprocessed_data = preprocessed_data.values
+
+        # transform the preprocessed_data array by `x := log (1+x)`
+        preprocessed_data = np.log(1 + preprocessed_data)
+
+        # standard scaling
+        preprocessed_data_mean = preprocessed_data.mean(axis=1)
+        preprocessed_data_std = preprocessed_data.std(axis=1)
+        preprocessed_data = (
+            preprocessed_data - preprocessed_data_mean[:, None]
+        ) / preprocessed_data_std[:, None]
+
+        if boolPCA:
+            pdfPCA = PCA(n_components=intPCANumDims)
+            pdfPCA.fit(preprocessed_data.T)
+            pcaData = pdfPCA.transform(preprocessed_data.T)
+            return pcaData
+        else:
+            return preprocessed_data
+
+    def GraphDR(self):
+        """ Document why the hell this works
+        
+        """
+
+        kNNGraph = kneighbors_graph(
+            X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
+        )
+        # Magic thing
+        kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
+        kNNGraphLaplacian = laplacian(kNNGraph)
+        GMatInverse = np.linalg.inv(
+            (
+                eye(self.pdfInput.shape[0])
+                + self.dLambdaRegularization * kNNGraphLaplacian
+            ).todense()
+        )
+        if self.boolNoRotation:
+            self.pdfGraphDROutput = np.asarray(
+                np.dot(self.pdfInput[:, : self.intNDims].T, GMatInverse).T
+            )
+        else:
+            # W Eigs
+            _, eigs = np.linalg.eigh(
+                np.dot(np.dot(self.pdfInput[:, : self.intNDims].T), self.pdfInput)
+            )
+            eigs = np.array(eigs)[:, ::-1]
+            eigs = eigs[:, : self.intNDims]
+            self.pdfGraphDROutput = np.asarray(
+                np.dot(
+                    np.dot(eigs.T, self.pdfInput[:, : self.intNDims].T), GMatInverse
+                ).T
+            )
+        return self.pdfGraphDROutput
+
 
 def main():
     args = docopt(__doc__)
-    
-    print(f"Loading data from file {args['<datafilepath>']}...")
-    X = np.loadtxt(args['<datafilepath>'])
-    print('load successful.')
-    print('performing pca...')
-    X = pca(X, 50)
-    print('pca complete...')
 
-    labels = np.loadtxt(args['<labelsfilepath>'])
-    print('labels loaded successfully...')
-    
+    print(f"Loading data from file {args['<datafilepath>']}...")
+    X = np.loadtxt(args["<datafilepath>"])
+    print("load successful.")
+    print("performing pca...")
+    X = pca(X, 50)
+    print("pca complete...")
+
+    labels = np.loadtxt(args["<labelsfilepath>"])
+    print("labels loaded successfully...")
+
     print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
     print("Running example on 2,500 MNIST digits...")
     tsne = TSNE(X, intMaxIter=100)
@@ -284,6 +436,7 @@ def main():
 
     plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
     plt.savefig("mnist_tsne.png")
+
 
 if __name__ == "__main__":
     main()

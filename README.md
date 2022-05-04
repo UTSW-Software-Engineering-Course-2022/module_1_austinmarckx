@@ -71,7 +71,6 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -84,8 +83,7 @@ This is where I describe the dimensionality reduction methods implemented here.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Getting started instructions...
 
 ### Prerequisites
 
@@ -112,7 +110,7 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Current Usage examples.
 
 ```sh
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt
@@ -129,7 +127,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 - [ ] Full CLI implementation 
     - [ ] TSNE attributes
-    - [ ] 
+    - [ ] GraphDR
 - [ ] 'Demo' version
 - [ ] Figure out how to document complicated things
     - [ ] Gains
@@ -139,6 +137,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [x] Separate into folders
         - data
         - images
+- [ ] Implement GraphDR
+- [ ] Implement Plotly
+- [ ] Implement Dash interface
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
