@@ -133,7 +133,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [ ] Beta/Perplexity
     - [ ] Tolerance
 - [ ] Clean repo
-    - [ ] Separate into folders
+    - [x] Separate into folders
         - data
         - images
 

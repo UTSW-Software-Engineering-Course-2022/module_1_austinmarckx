@@ -12,8 +12,7 @@ labelsfilepath:
 import numpy as np
 import matplotlib.pyplot as plt
 from docopt import docopt
-from tsne import pca
-from adjustbeta import adjustbeta
+from helperfun import pca, adjustbeta
 
 class TSNE:
     """ TSNE dimensionality reduction

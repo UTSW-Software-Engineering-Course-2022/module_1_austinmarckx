@@ -1,5 +1,11 @@
-import numpy as np
+""" Provided helper functions
 
+Notes
+-----
+I (Austin Marckx) am not the author of these functions.
+"""
+
+import numpy as np
 
 def Hbeta(D, beta=1.0):
     """
@@ -89,3 +95,27 @@ def adjustbeta(X, tol, perplexity, D):
         P[i, np.concatenate((np.r_[0:i], np.r_[i + 1 : n]))] = thisP
 
     return P, beta
+
+
+def pca(X, no_dims=50):
+    """
+    Runs PCA on the nxd array X in order to reduce its dimensionality to
+    no_dims dimensions.
+
+    Parameters
+    ----------
+    X : numpy.ndarray
+        data input array with dimension (n,d)
+    no_dims : int
+        number of dimensions that PCA reduce to
+
+    Returns
+    -------
+    Y : numpy.ndarray
+        low-dimensional representation of input X
+    """
+    n, d = X.shape
+    X = X - X.mean(axis=0)[None, :]
+    _, M = np.linalg.eig(np.dot(X.T, X))
+    Y = np.real(np.dot(X, M[:, :no_dims]))
+    return Y
