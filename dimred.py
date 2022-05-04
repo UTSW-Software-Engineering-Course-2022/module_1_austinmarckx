@@ -290,8 +290,10 @@ class GraphDR:
    
     Attributes:
     ----------
-        arrNxdInput : `np.ndarray` 
-            Input array (n,d).  Should contain numerical data.
+        pdfInput : `pd.DataFrame`, default = None
+            pandas dataframe containing the data. Should contain only numerical entries
+        pdfAnno : `pd.DataFrame`, default = None
+        
         intNDims : `int`, default = None
             Number of columns in the output array
         intStepSize : `int`, default = 500
@@ -300,9 +302,9 @@ class GraphDR:
     Methods
     -------
         preprocess
-
+            Preps raw data for GraphDR
         GraphDR
-
+            Quasilinear dimensionality reduction.
     """
 
     def __init__(
@@ -316,7 +318,7 @@ class GraphDR:
         strDataFilePath: str = None,
         strAnnoFilePath: str = None,
         boolPreprocessData: bool = True,
-        boolPCA: bool = True,
+        boolDoPCA: bool = True,
         intPCANumComponents: int = 20,
         boolDemo: bool = True,
     ) -> None:
@@ -350,7 +352,7 @@ class GraphDR:
 
         # If Preprocess
         if boolPreprocessData:
-            self.pdfInput = self.preprocess(self.pdfInput, boolPCA, intPCANumComponents)
+            self.pdfInput = self.preprocess(self.pdfInput, boolDoPCA, intPCANumComponents)
 
         # Check for nDims
         if intNDims:
@@ -358,9 +360,35 @@ class GraphDR:
         else:
             self.intNDims = self.pdfInput.shape[1]
 
-    def preprocess(self, pdfInput, boolPCA: bool, intPCANumDims: int):
+    def preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims: int):
         """ Provided preprocessing
         
+        This describes what steps are done in preprocessing the data
+
+        Attributes
+        ----------
+        pdfInput : `pd.DataFrame`
+            pandas dataframe containing raw data.
+            (Insert description of preprocessed data)
+        boolDoPCA : `bool`
+            Flag: Should PCA be done?
+        intPCANumDims : `int` 
+            Number of PCA dimensions.
+        
+        Returns
+        -------
+        preprocessed_data : pd.DataFrame
+            preprocessed output dataframe.
+
+        Notes
+        -----
+        The `PCA` implemented here is a wrapper for `sklearn.decomposition.PCA`
+
+        See Also
+        --------
+        sklearn.decomposition.PCA : 
+            PCA implemented in sklearn
+
         """
         # We will first normalize each cell by total count per cell.
         percell_sum = pdfInput.sum(axis=0)
@@ -381,7 +409,7 @@ class GraphDR:
             preprocessed_data - preprocessed_data_mean[:, None]
         ) / preprocessed_data_std[:, None]
 
-        if boolPCA:
+        if boolDoPCA:
             pdfPCA = PCA(n_components=intPCANumDims)
             pdfPCA.fit(preprocessed_data.T)
             pcaData = pdfPCA.transform(preprocessed_data.T)
