@@ -10,10 +10,9 @@ labelsfilepath:
 """
 
 # Imports
-from time import gmtime
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 from sklearn.decomposition import PCA
 from sklearn.neighbors import kneighbors_graph
 from scipy.sparse.csgraph import laplacian
@@ -283,7 +282,7 @@ class GraphDR:
     ----------
         arrNxdInput : `np.ndarray` 
             Input array (n,d).  Should contain numerical data.
-        intNDims : `int`, default = 2
+        intNDims : `int`, default = None
             Number of columns in the output array
         intStepSize : `int`, default = 500
             inital step size of gradient descent
@@ -384,7 +383,6 @@ class GraphDR:
         """ Document why the hell this works
         
         """
-
         kNNGraph = kneighbors_graph(
             X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
         )
@@ -416,6 +414,35 @@ class GraphDR:
         return self.pdfGraphDROutput
 
 
+def plot(
+    df,
+    intX=0,
+    intY=1,
+    intZ=2,
+    labels=None,
+    bool3D=False,
+    boolSaveFig=False,
+    boolSaveToHTML=True,
+):
+    """ Simple Scatter plot options
+    """
+    # 3D Scatter plot
+    if bool3D:
+        fig = px.scatter_3d(x=df[:, intX], y=df[:, intY], z=df[:, intZ], color=labels)
+    # 2D Scatter plot
+    else:
+        fig = px.scatter(x=df[:, intX], y=df[:, intY], color=labels)
+    fig.update_traces(marker_size=1)
+
+    if boolSaveFig:
+        if boolSaveToHTML:
+            fig.write_html("fig1.html")
+        else:
+            fig.write_image("fig1.jpeg")
+
+    fig.show()
+
+
 def main():
     args = docopt(__doc__)
 
@@ -434,8 +461,7 @@ def main():
     tsne = TSNE(X, intMaxIter=100)
     Y = tsne.TSNE()
 
-    plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
-    plt.savefig("mnist_tsne.png")
+    plot(Y, labels=labels, saveFig=True, saveToHTML=False)
 
 
 if __name__ == "__main__":
