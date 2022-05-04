@@ -1,11 +1,12 @@
 """Usage: 
-    dimred.py tsne [options] <datafilepath> <labelsfilepath>
+    dimred.py tsne [options] [<datafilepath> <labelsfilepath>]
     dimred.py graphdr [options] 
 
 options:
     -p --plot=<bool>   Plot the output          [default: True]
     -s --save=<bool>   Save plot                [default: True]
     --htmlPlot=<bool>  Plot saved as html       [default: True]
+    --demo=<bool>      Load and run demo        [default: True]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -426,6 +427,7 @@ def plot(
     bool3D=False,
     boolSaveFig=False,
     boolSaveToHTML=True,
+    dMarkerSize = 1.0
 ):
     """ Simple Scatter plot options
     """
@@ -435,7 +437,7 @@ def plot(
     # 2D Scatter plot
     else:
         fig = px.scatter(x=df[:, intX], y=df[:, intY], color=labels)
-    fig.update_traces(marker_size=1)
+    fig.update_traces(marker_size=dMarkerSize)
 
     if boolSaveFig:
         if boolSaveToHTML:
@@ -450,23 +452,20 @@ def main():
     args = docopt(__doc__)
 
     if bool(args['tsne']):
-        print(f"Loading data from file {args['<datafilepath>']}...")
-        X = np.loadtxt(args["<datafilepath>"])
-        print("load successful.")
-        print("performing pca...")
-        X = pca(X, 50)
-        print("pca complete...")
-
-        labels = np.loadtxt(args["<labelsfilepath>"])
-        print("labels loaded successfully...")
-
-        print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
-        print("Running example on 2,500 MNIST digits...")
-        tsne = TSNE(X, intMaxIter=100)
-        Z = tsne.TSNE()
-        
-        if args['--plot']:
-            plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
+        # Demo version
+        if bool(args['--demo']):
+            X = np.loadtxt('./data/demo_mnist2500_X.txt')
+            labels = np.loadtxt('./data/demo_mnist2500_labels.txt').astype(str)
+            X = pca(X, 50)
+            tsne = TSNE(X, intMaxIter=10)
+            Z = tsne.TSNE()
+            if args['--plot']:
+                plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'], dMarkerSize = 5)
+        else:
+            print('Non-demo version is a WIP')
+            # Non-demo version
+            # if args['--plot']:
+            #     plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
 
     elif bool(args['graphdr']):
         GDR = GraphDR(boolDemo=True)
