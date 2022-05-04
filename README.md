@@ -110,11 +110,50 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Current Usage examples.
+CLI Usage:
+  dimred.py tsne <datafilepath> <labelsfilepath>
+  dimred.py tsne [options] 
+  dimred.py graphdr [options] 
+
+options:
+    -p --plot=<bool>   Plot the output          [default: True]
+    -s --save=<bool>   Save plot                [default: True]
+    --htmlPlot=<bool>  Plot saved as html       [default: True]
+    --plot3d=<bool>    Plot in 3D               [default: False]
+    --demo=<bool>      Load and run demo        [default: False]
+
+datafilepath:
+    --datafilepath=<str>  read in data from file path
+
+labelsfilepath:    
+    --labelsfilepath=<str> read in labels from file path
+
+Examples:
 
 ```sh
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt
 ```
+
+TSNE
+```sh
+# Demo data
+python dimred.py tsne --demo=True
+
+# Or specify your own file paths
+python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
+```
+
+
+
+GraphDR
+```sh
+# Demo Data:
+# 2D Html output
+python dimred.py graphdr --demo=True
+# 3D Html output
+python dimred.py graphdr --demo=True --plot3d=True
+```
+
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 

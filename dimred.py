@@ -1,12 +1,14 @@
 """Usage: 
-    dimred.py tsne [options] [<datafilepath> <labelsfilepath>]
+    dimred.py tsne <datafilepath> <labelsfilepath>
+    dimred.py tsne [options] 
     dimred.py graphdr [options] 
 
 options:
     -p --plot=<bool>   Plot the output          [default: True]
     -s --save=<bool>   Save plot                [default: True]
     --htmlPlot=<bool>  Plot saved as html       [default: True]
-    --demo=<bool>      Load and run demo        [default: True]
+    --plot3d=<bool>    Plot in 3D               [default: False]
+    --demo=<bool>      Load and run demo        [default: False]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -453,7 +455,8 @@ def main():
 
     if bool(args['tsne']):
         # Demo version
-        if bool(args['--demo']):
+        if args['--demo'] == True:
+            print('Welcome to TSNE Demo!')
             X = np.loadtxt('./data/demo_mnist2500_X.txt')
             labels = np.loadtxt('./data/demo_mnist2500_labels.txt').astype(str)
             X = pca(X, 50)
@@ -462,17 +465,28 @@ def main():
             if args['--plot']:
                 plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'], dMarkerSize = 5)
         else:
+            X = np.loadtxt(args['<datafilepath>'])
+            labels = np.loadtxt(args['<labelsfilepath>']).astype(str)
+            X = pca(X, 50)
+            tsne = TSNE(X, intMaxIter=20)
+            Z = tsne.TSNE()
+            if args['--plot']:
+                plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'], dMarkerSize = 5)
+
+
             print('Non-demo version is a WIP')
             # Non-demo version
             # if args['--plot']:
             #     plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
 
     elif bool(args['graphdr']):
-        GDR = GraphDR(boolDemo=True)
+        if args['--demo'] == True:
+            print('Welcome to GraphDR Demo!')
+        GDR = GraphDR(boolDemo=args['--demo'])
         Z = GDR.GraphDR()
         labels = GDR.pdfAnno
         if args['--plot']:
-            plot(Z, labels=labels, boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
+            plot(Z, labels=labels,bool3D=args['--plot3d'], boolSaveFig=args['--save'], boolSaveToHTML=args['--htmlPlot'])
 
     
 if __name__ == "__main__":
