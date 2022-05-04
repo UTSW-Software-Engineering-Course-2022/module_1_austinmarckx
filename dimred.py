@@ -1,5 +1,12 @@
-"""Usage: dimred.py tsne <datafilepath> <labelsfilepath>
-          dimred.py graphdr <datafilepath> <labelsfilepath>
+"""Usage: 
+    dimred.py tsne [tsne-options] <datafilepath> <labelsfilepath>
+    dimred.py graphdr [graphdr-options] <datafilepath> <labelsfilepath>
+
+tsne-options:
+    -p --plot   Plot the output 
+
+graphdr-options:
+    -p --plot   Plot the output
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -19,7 +26,6 @@ from scipy.sparse.csgraph import laplacian
 from scipy.sparse import eye
 from helperfun import adjustbeta, pca
 from docopt import docopt
-
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -274,7 +280,6 @@ class TSNE:
                 print(f"Step: {i}     KLDiv: {KLDiv}")
         return self.arrNxNDimsOutput
 
-
 class GraphDR:
     """ GraphDR Quasilinear Dimensionality Reduction
    
@@ -412,7 +417,6 @@ class GraphDR:
                 ).T
             )
         return self.pdfGraphDROutput
-
 
 def plot(
     df,
