@@ -112,6 +112,52 @@ pip install -r requirements.txt
 
 ### Python usage
 
+After installing, the following illustrates some
+
+### TSNE
+```sh
+import numpy as np
+from dimred import TSNE, plot
+from helperfun import pca
+
+# Load your data
+X = np.loadtxt("path/to/data")
+labels = np.loadtxt("path/to/labels").astype(str)
+X = pca(X,50)
+
+# Max iterations default: 1000, change for more/less clustering and runtime
+tsne = TSNE(X, intMaxIter=10)
+tsneOutput = tsne.TSNE()
+
+# Plot.
+# If SaveToHTML is false then the figure is saved as jpeg.
+# Note: if you want to run this in jupyter, you may need to install kaleido
+plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
+```
+
+### GraphDR
+
+#TODO: Verify this works
+
+```sh
+import pandas as pd
+from dimred import GraphDR, plot
+
+# Option 1: Pass data into GraphDR class
+pdfInput = pd.read_csv("path/to/data", sep="\t", index_col=0)
+labels = pd.read_csv("path/to/labels", sep="\t", header=None)[1].values
+GDR = GraphDR(pdfInput=pdfInput)
+GDROutput = GDR.GraphDR()
+
+# Option 2: Pass filepath into GraphDR class
+GDR = GraphDR(strDataFilePath="path/to/data", strAnnoFilePath="path/to/labels")
+GDROutput = GDR.GraphDR()
+labels = GDR.pdfAnno
+
+plot(GDROutput, labels=labels, boolSaveFig=True, boolSaveToHTML=True)
+```
+
+
 examples of how to use the module inside python or jupyter
 
 ### CLI usage

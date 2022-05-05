@@ -302,8 +302,7 @@ class GraphDR:
         dLambdaRegularization : `float`, default = 10.0
             Regularization factor for GraphDR
         boolNoRotation : `bool`, default = True
-            Whether to rotate
-            # TODO Figure out why this changes stuff so much
+            Whether to rotate plot axes
         strDataFilePath : `str`, default = None
             The relative file path to a file containing the data.
             The format of this raw data file should be...
