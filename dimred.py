@@ -467,7 +467,7 @@ class GraphDR:
         )
         # Magic thing (symmetrization)
         kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
-        kNNGraphLaplacian = laplacian(kNNGraph)
+        kNNGraphLaplacian = laplacian(kNNGraph) # maybe laplacian wants symmetric 
         GMatInverse = np.linalg.inv(
             (
                 eye(self.pdfInput.shape[0])
@@ -555,7 +555,6 @@ def main():
 
     if bool(args["tsne"]):
         # Demo version
-        # BUG: this switch based on args['--demo'] is not working.  
         if args["--demo"] == 'True':
             print("Welcome to TSNE Demo!")
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
@@ -592,7 +591,6 @@ def main():
 
     elif bool(args["graphdr"]):
         # Demo Version
-        # BUG: this switch based on args['--demo'] is not working.
         if args["--demo"] == 'True':
             print("Welcome to GraphDR Demo!")
             GDR = GraphDR(boolDemo=args["--demo"])

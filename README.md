@@ -75,8 +75,8 @@
 ## About The Project
 
 This is where I describe the dimensionality reduction methods implemented here.
-- TSNE
-- GraphDR
+- [TSNE](https://lvdmaaten.github.io/tsne/)
+- [GraphDR](https://github.com/jzthree/quasildr)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -174,6 +174,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
     - [x] TSNE attributes
     - [x] GraphDR
 - [x] 'Demo' version
+  - [x] Fix CLI Demo bug
 - [x] Figure out how to document complicated things
     - [x] Gains
     - [x] Beta/Perplexity
