@@ -93,10 +93,9 @@ pip install -r requirements.txt
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
-   ```
+  ```sh
+  git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
+  ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

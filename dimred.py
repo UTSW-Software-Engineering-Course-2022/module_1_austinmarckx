@@ -504,12 +504,12 @@ def plot(
     intX=0,
     intY=1,
     intZ=2,
-    dScale = 3.5,
+    dScale=3.5,
     labels=None,
     bool3D=False,
     boolSaveFig=False,
     boolSaveToHTML=True,
-    boolHidePlot = False,
+    boolHidePlot=False,
     dMarkerSize=1.0,
 ):
     """ Plotly 2D and 3D Scatter plots
@@ -556,7 +556,7 @@ def plot(
         if boolSaveToHTML:
             fig.write_html("fig1.html")
         else:
-            fig.write_image("fig1.jpeg", scale = dScale)
+            fig.write_image("fig1.jpeg", scale=dScale)
 
     if not boolHidePlot:
         fig.show()
@@ -581,8 +581,8 @@ def main():
                     labels=labels,
                     boolSaveFig=strtobool(args["--saveplot"]),
                     boolSaveToHTML=strtobool(args["--htmlPlot"]),
-                    boolHidePlot=strtobool(args['--hideplot']),
-                    dMarkerSize=5
+                    boolHidePlot=strtobool(args["--hideplot"]),
+                    dMarkerSize=5,
                 )
         # Perform on filepath inputs
         else:
@@ -597,8 +597,8 @@ def main():
                     labels=labels,
                     boolSaveFig=strtobool(args["--saveplot"]),
                     boolSaveToHTML=strtobool(args["--htmlPlot"]),
-                    boolHidePlot=strtobool(args['--hideplot']),
-                    dMarkerSize=5
+                    boolHidePlot=strtobool(args["--hideplot"]),
+                    dMarkerSize=5,
                 )
 
         if strtobool(args["--savedata"]):
@@ -624,7 +624,7 @@ def main():
                 bool3D=strtobool(args["--plot3d"]),
                 boolSaveFig=strtobool(args["--saveplot"]),
                 boolSaveToHTML=strtobool(args["--htmlPlot"]),
-                boolHidePlot=strtobool(args['--hideplot'])
+                boolHidePlot=strtobool(args["--hideplot"]),
             )
         if strtobool(args["--savedata"]):
             pd.DataFrame(Z).to_csv("graphdr_output.csv")
