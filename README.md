@@ -186,7 +186,7 @@ python dimred.py tsne --demo=True
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
 ```
 
-<img src="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/images/demo_mnist_tsne_1000.png" width = "500">
+<img src="./images/demo_mnist_tsne_1000.png" width = "500">
 
 #### GraphDR
 ```sh
