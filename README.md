@@ -221,7 +221,7 @@ python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.a
   <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
-_For more examples, please refer to the <a href="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/html/index.html">Documentation</a>_
+_For more examples, please refer to the <a href="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html">Documentation</a>_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
