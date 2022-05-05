@@ -221,7 +221,7 @@ python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.a
   <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
-_For more examples, please refer to the [Documentation](./docs/build/html/index.html)_
+_For more examples, please refer to the [Documentation](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -229,20 +229,6 @@ _For more examples, please refer to the [Documentation](./docs/build/html/index.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] CLI implementation 
-    - [x] TSNE attributes
-    - [x] GraphDR
-- [x] 'Demo' version
-  - [x] Fix CLI Demo bug
-- [x] Figure out how to document complicated things
-    - [x] Gains
-    - [x] Beta/Perplexity
-    - [x] Tolerance
-- [x] Clean repo
-    - [x] Separate into folders
-        - data
-        - images
-- [x] Implement GraphDR
 - [ ] Document GraphDR
     - [ ] GrapDR method is really sparse on inline comments...
     - [ ] Higher level understanding/ overview in class docstring would be nice...
@@ -250,13 +236,10 @@ _For more examples, please refer to the [Documentation](./docs/build/html/index.
 - [ ] Document TSNE
     - [ ] Higher level understanding/ overview in class docstring would be nice...
     - [ ] Link to paper/repo page
-- [x] Implement Plotly
-    - [x] Plot function (2D and 3D plotly) implemented
 - [ ] Implement Dash interface
-- [ ] CLEAN README!!
-  - [ ] Examples, examples, examples
-  - [ ] update README with CLI examples
-  - [ ] Python usage examples
+- [ ] New Single cell dataset for Graphdr
+
+
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
