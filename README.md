@@ -137,8 +137,6 @@ plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerS
 
 ### GraphDR
 
-#TODO: Verify this works
-
 ```sh
 import pandas as pd
 from dimred import GraphDR, plot
@@ -157,8 +155,7 @@ labels = GDR.pdfAnno
 plot(GDROutput, labels=labels, boolSaveFig=True, boolSaveToHTML=True)
 ```
 
-
-examples of how to use the module inside python or jupyter
+Note that if a file path is passed into GraphDR, the default read option is identical to option 1.
 
 ### CLI usage
 ```sh

@@ -466,7 +466,7 @@ class GraphDR:
         )
         # Magic thing (symmetrization)
         kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
-        kNNGraphLaplacian = laplacian(kNNGraph) # maybe laplacian wants symmetric 
+        kNNGraphLaplacian = laplacian(kNNGraph)  # maybe laplacian wants symmetric
         GMatInverse = np.linalg.inv(
             (
                 eye(self.pdfInput.shape[0])
@@ -554,7 +554,7 @@ def main():
 
     if bool(args["tsne"]):
         # Demo version
-        if args["--demo"] == 'True':
+        if args["--demo"] == "True":
             print("Welcome to TSNE Demo!")
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
             labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
@@ -585,12 +585,12 @@ def main():
                     dMarkerSize=5,
                 )
 
-        if args['--savedata']:
-            pd.DataFrame(Z).to_csv('output.csv')
+        if args["--savedata"]:
+            pd.DataFrame(Z).to_csv("tsne_output.csv")
 
     elif bool(args["graphdr"]):
         # Demo Version
-        if args["--demo"] == 'True':
+        if args["--demo"] == "True":
             print("Welcome to GraphDR Demo!")
             GDR = GraphDR(boolDemo=args["--demo"])
         # Perform on filepath inputs
@@ -609,8 +609,9 @@ def main():
                 boolSaveFig=args["--saveplot"],
                 boolSaveToHTML=args["--htmlPlot"],
             )
-        if args['--savedata']:
-            pd.DataFrame(Z).to_csv('output.csv')
+        if args["--savedata"]:
+            pd.DataFrame(Z).to_csv("graphdr_output.csv")
+
 
 if __name__ == "__main__":
     main()

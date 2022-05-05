@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+
+<html lang="Python">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Usage &#8212; DimRed  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to DimRed&#39;s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+</section>
+<section id="module-dimred">
+<span id="dimred"></span><span id="foo"></span><h1>dimred<a class="headerlink" href="#module-dimred" title="Permalink to this headline">¶</a></h1>
+<dl>
+<dt>Usage:</dt><dd><p>dimred.py tsne [options]
+dimred.py tsne &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]
+dimred.py graphdr [options]
+dimred.py graphdr &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</p>
+</dd>
+<dt>options:</dt><dd><p>-p --plot=&lt;bool&gt;        Plot the output     [default: True]
+-s --saveplot=&lt;bool&gt;    Save plot           [default: True]
+-o --savedata=&lt;bool&gt;    Save output data    [default: True]
+--htmlPlot=&lt;bool&gt;       Plot saved as html  [default: True]
+--plot3d=&lt;bool&gt;         Plot in 3D          [default: False]
+--demo=&lt;bool&gt;           Load and run demo   [default: False]</p>
+</dd>
+<dt>datafilepath:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">--datafilepath=<var>&lt;str&gt;</var></span></kbd></dt>
+<dd><p>read in data from file path</p>
+</dd>
+</dl>
+</dd>
+<dt>labelsfilepath:</dt><dd><p>--labelsfilepath=&lt;str&gt; read in labels from file path</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="dimred.GraphDR">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dimred.</span></span><span class="sig-name descname"><span class="pre">GraphDR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdfInput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdfAnno</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intNDims</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intKNeighbors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dLambdaRegularization</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolNoRotation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strDataFilePath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strAnnoFilePath</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolPreprocessData</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolDoPCA</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intPCANumComponents</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolDemo</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#GraphDR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.GraphDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>GraphDR Quasilinear Dimensionality Reduction</p>
+<blockquote>
+<div><dl>
+<dt>pdfInput<span class="classifier"><cite>pd.DataFrame</cite>, default = None</span></dt><dd><p>pandas dataframe containing the data. Should contain only numerical entries</p>
+</dd>
+<dt>pdfAnno<span class="classifier"><cite>pd.DataFrame</cite>, default = None</span></dt><dd><p>pandas dataframe containg data annotations.</p>
+</dd>
+<dt>intNDims<span class="classifier"><cite>int</cite>, default = None</span></dt><dd><p>Number of columns in the output array</p>
+</dd>
+<dt>intKNeighbors<span class="classifier"><cite>int</cite>, default = 10</span></dt><dd><p>Number of neighbors for sklearn's kneighbors_graph</p>
+</dd>
+<dt>dLambdaRegularization<span class="classifier"><cite>float</cite>, default = 10.0</span></dt><dd><p>Regularization factor for GraphDR</p>
+</dd>
+<dt>boolNoRotation<span class="classifier"><cite>bool</cite>, default = True</span></dt><dd><p>Whether to rotate plot axes</p>
+</dd>
+<dt>strDataFilePath<span class="classifier"><cite>str</cite>, default = None</span></dt><dd><p>The relative file path to a file containing the data.
+The format of this raw data file should be...</p>
+</dd>
+<dt>strAnnoFilePath<span class="classifier"><cite>str</cite>, default = None</span></dt><dd><p>The relative file path to a file containing the annontations of data.
+The format of this raw data file should be...</p>
+</dd>
+<dt>boolPreprocessData<span class="classifier"><cite>bool</cite>, default = True</span></dt><dd><p>Whether or not to preprocess the input data file</p>
+</dd>
+<dt>boolDoPCA<span class="classifier"><cite>bool</cite>, default = True</span></dt><dd><p>Whether PCA should be done in the preprocessing</p>
+</dd>
+<dt>intPCANumComponents<span class="classifier"><cite>int</cite>, default = 20</span></dt><dd><p>The number of PCA dimensions fed into sklearn's PCA.</p>
+</dd>
+<dt>boolDemo<span class="classifier"><cite>bool</cite>, default = True</span></dt><dd><p>If True, GraphDR will be run on the Demo dataset.</p>
+</dd>
+<dt>pdfGraphDROutput<span class="classifier"><cite>pd.DataFrame</cite>, default = None</span></dt><dd><p>pandas dataframe holding output data from GraphDR</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.GraphDR.Preprocess">
+<span class="sig-name descname"><span class="pre">Preprocess</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#GraphDR.Preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.GraphDR.Preprocess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preps raw data for GraphDR</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.GraphDR.GraphDR">
+<span class="sig-name descname"><span class="pre">GraphDR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#GraphDR.GraphDR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.GraphDR.GraphDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quasilinear dimensionality reduction.</p>
+</dd></dl>
+
+<p class="rubric">Notes</p>
+<p>Preprocess utilizes sklearn's PCA
+GraphDR utilizes sklearn's kneighbors_graph as well as scipy's laplacian</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.decomposition.PCA</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.neighbors.kneighbors_graph</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.sparse.csgraph.laplacian</span></code></p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">GraphDR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#GraphDR.GraphDR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Document why the hell this works</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>pdfGraphDROutput</strong> -- Output dataframe after GraphDR has been performed</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>'pd.DataFrame'</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">Preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdfInput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolDoPCA</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intPCANumDims</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#GraphDR.Preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provided preprocessing</p>
+<p>This describes what steps are done in preprocessing the data</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dimred.GraphDR.pdfInput">
+<span class="sig-name descname"><span class="pre">pdfInput</span></span><a class="headerlink" href="#dimred.GraphDR.pdfInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>pandas dataframe containing raw data.
+(Insert description of preprocessed data)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><cite>pd.DataFrame</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dimred.GraphDR.boolDoPCA">
+<span class="sig-name descname"><span class="pre">boolDoPCA</span></span><a class="headerlink" href="#dimred.GraphDR.boolDoPCA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag: Should PCA be done?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><cite>bool</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dimred.GraphDR.intPCANumDims">
+<span class="sig-name descname"><span class="pre">intPCANumDims</span></span><a class="headerlink" href="#dimred.GraphDR.intPCANumDims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of PCA dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><cite>int</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>preprocessed_data</strong> -- preprocessed output dataframe.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The <cite>PCA</cite> implemented here is a wrapper for <cite>sklearn.decomposition.PCA</cite></p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.decomposition.PCA</span></code></dt><dd><p>PCA implemented in sklearn</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dimred.TSNE">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">dimred.</span></span><span class="sig-name descname"><span class="pre">TSNE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrNxdInput</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intNDims</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intMaxIter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dPerplexity</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dInitMomentum</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dFinalMomentum</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intInitalMomentumSteps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dTolerance</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intStepSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dMinGain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dMinProb</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1e-12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dEarlyExaggerationFactor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intNumExaggerationSteps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intUpdateStepSize</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>TSNE dimensionality reduction</p>
+<p>t-distributed stochastic neighbor embedding (TSNE) nonlinear dimensionality reduction.</p>
+<blockquote>
+<div><dl>
+<dt>arrNxdInput<span class="classifier"><cite>np.ndarray</cite></span></dt><dd><p>Input array (n,d).  Should contain numerical data.</p>
+</dd>
+<dt>intNDims<span class="classifier"><cite>int</cite>, default = 2</span></dt><dd><p>Number of columns in the output array</p>
+</dd>
+<dt>dPerplexity<span class="classifier"><cite>float</cite>, default = 30.0</span></dt><dd><p>Precision term</p>
+</dd>
+<dt>dInitMomentum: <cite>float</cite>, default = 0.5</dt><dd><p>Initial momentum of gradient</p>
+</dd>
+<dt>dFinalMomentum: <cite>float</cite>, default = 0.8</dt><dd><p>Final momentum of gradient</p>
+</dd>
+<dt>intInitalMomentumSteps<span class="classifier"><cite>int</cite> = 20</span></dt><dd><p>Number of iterations with initial momentum</p>
+</dd>
+<dt>dTolerance: <cite>float</cite>, default = 1e-5</dt><dd><p>Used with Perplexity to approximate stdev of gaussian</p>
+</dd>
+<dt>dMinGain<span class="classifier"><cite>float</cite>, default = 0.01</span></dt><dd><p>Gain clipped to this minimum value</p>
+</dd>
+<dt>intStepSize<span class="classifier"><cite>int</cite>, default = 500</span></dt><dd><p>inital step size of gradient descent</p>
+</dd>
+<dt>dMinProb<span class="classifier"><cite>float</cite>, default = 1e-12</span></dt><dd><p>Clip value for probabilities.  This factor is added to all values of probability array.</p>
+</dd>
+<dt>intEarlyExaggerationFactor<span class="classifier"><cite>float</cite>, default = 4</span></dt><dd><p>Optimization exaggerates early steps to allow larger movements.
+If <cite>intEarlyExaggerationFactor = 1</cite>, there is no exaggeration</p>
+</dd>
+<dt>intNumExaggerationSteps<span class="classifier"><cite>int</cite>, default = 100</span></dt><dd><p>Number of steps before exaggeration factor is removed from p_ij</p>
+</dd>
+<dt>intMaxIter<span class="classifier"><cite>int</cite>, default = 1000</span></dt><dd><p>Number of TSNE iterations</p>
+</dd>
+<dt>intUpdateStepSize: <cite>int</cite>, default = 10</dt><dd><p>Number of steps before printing update value to console</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.SquareEucDist">
+<span class="sig-name descname"><span class="pre">SquareEucDist</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.SquareEucDist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.SquareEucDist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the pairwise squared euclidean distance of input m x n array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.GetAdjustedBeta">
+<span class="sig-name descname"><span class="pre">GetAdjustedBeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.GetAdjustedBeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.GetAdjustedBeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the conditional probability matrix from pairwise distances and determine the precision (beta)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.Calc_p_ij">
+<span class="sig-name descname"><span class="pre">Calc_p_ij</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_p_ij"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.Calc_p_ij" title="Permalink to this definition">¶</a></dt>
+<dd><p>Probability array representing distance via Gaussian distribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.Calc_q_ij">
+<span class="sig-name descname"><span class="pre">Calc_q_ij</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_q_ij"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.Calc_q_ij" title="Permalink to this definition">¶</a></dt>
+<dd><p>Probability array representing distance via t-distribution</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.Calc_dY">
+<span class="sig-name descname"><span class="pre">Calc_dY</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_dY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.Calc_dY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the gradient of current step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.Calc_gains">
+<span class="sig-name descname"><span class="pre">Calc_gains</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_gains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.Calc_gains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the gains (optimizing gradient descent)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.TSNE">
+<span class="sig-name descname"><span class="pre">TSNE</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.TSNE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.TSNE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default implementation of TSNE.  Returns dimension reduced array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">Calc_dY</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_dY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the gradient for Y</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">Calc_gains</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_gains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the gain form signs of dY and deltaY</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">Calc_p_ij</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_p_ij"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Gaussian probability matrix from input array pairwise distances</dt><dd><div class="math notranslate nohighlight">
+\[p_{ij} =\]</div>
+</dd>
+</dl>
+<p>rac{p_{j|i} + p_{i|j}}/{sum_{k
+eq l}p_{k|l} + p_{l|k}}</p>
+<blockquote>
+<div><p>where:
+p_{j|i} =</p>
+</div></blockquote>
+<p>rac{exp(-||x_{i} - x_{j}||^{2}*eta)}/{sum_{i
+eq k}exp(-||x_{i} - x_{k}||^{2}*eta)}</p>
+<blockquote>
+<div><p>p_{i|j} = p_{j|i}.T
+eta =</p>
+</div></blockquote>
+<p>rac{1}/{(2 * sigma^2)}</p>
+<blockquote>
+<div><dl class="simple">
+<dt>arrInputProbs_ij_mat<span class="classifier">np.ndarray</span></dt><dd><p>Gaussian representation fo pairwise distance probabilies</p>
+</dd>
+</dl>
+<p>By default the returned prob array is clipped to <cite>self.dMinProb</cite> and exaggerated by <cite>self.dEarlyExaggerationFactor</cite></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">Calc_q_ij</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.Calc_q_ij"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Represent distance with t-distribution (df = 1)</dt><dd><div class="math notranslate nohighlight">
+\[q_{ij} =\]</div>
+</dd>
+</dl>
+<p>rac{1 + -||y_{i} - y_{j}||^{2}}^{-1}/{sum_{i
+eq k}1 + -||y_{k} - y_{l}||^{2}}^{-1}</p>
+<blockquote>
+<div><dl class="simple">
+<dt>q_ij_mat<span class="classifier">np.ndarray</span></dt><dd><p>The t-distribution representation of pairwise distances</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">GetAdjustedBeta</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.GetAdjustedBeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the beta using tolerance and perplexity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>arrInputProbs</strong> (<em>np.ndarray</em>) -- probability matrix (n,n)</p></li>
+<li><p><strong>arr1DBeta</strong> (<em>np.ndarray</em>) -- precision array (n, 1)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is a wrapper for the adjustbeta.adjustbeta function.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjustbeta.py</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dimred.TSNE.KLDivergence">
+<span class="sig-name descname"><span class="pre">KLDivergence</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#TSNE.KLDivergence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.TSNE.KLDivergence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the KL Divergence for the current step</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">SquareEucDist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_nxd</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.SquareEucDist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Pairwise Squared Euclidian distance</dt><dd><div class="math notranslate nohighlight">
+\[\sum_{i\]</div>
+</dd>
+</dl>
+<p>eq j}||x_{i} - x_{j}||^{2}</p>
+<blockquote>
+<div><dl class="simple">
+<dt>array_nxd<span class="classifier">np.ndarray</span></dt><dd><p>Input array (n,d)</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>arrNxNSquareEucDistMat<span class="classifier">np.ndarray</span></dt><dd><p>Pairwise distance array (n,n)</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">TSNE</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/dimred.html#TSNE.TSNE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>arrNxNDimsOutput</strong> -- The dimensionally reduced output array</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dimred.main">
+<span class="sig-prename descclassname"><span class="pre">dimred.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle CLI Inputs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dimred.plot">
+<span class="sig-prename descclassname"><span class="pre">dimred.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intZ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool3D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolSaveFig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boolSaveToHTML</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dMarkerSize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dimred.html#plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dimred.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plotly 2D and 3D Scatter plots</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>array_like</em>) -- Input data for plotting</p></li>
+<li><p><strong>intX</strong> (<cite>int</cite>, default = 0) -- Index of the column to be plotted on the x axis</p></li>
+<li><p><strong>intY</strong> (<cite>int</cite>, default = 1) -- Index of the column to be plotted on the y axis</p></li>
+<li><p><strong>intZ</strong> (<cite>int</cite>, default = 2) -- Index of the column to be plotted on the z axis</p></li>
+<li><p><strong>labels</strong> (<em>1D.array</em><em>, </em><em>default = None</em>) -- A (n, 1) array of labels for annotating df points.  Note row indexes should match between points</p></li>
+<li><p><strong>bool3D</strong> (<cite>bool</cite>, default = False) -- If True make 3D scatter plot, otherwise do 2D scatter</p></li>
+<li><p><strong>boolSaveFig</strong> (<cite>bool</cite>, default = False) -- If True the plotted figure will be saved.</p></li>
+<li><p><strong>boolSaveToHTML</strong> (<cite>bool</cite>, default = True) -- If True, figure saved as html, otherwise saved as jpg</p></li>
+<li><p><strong>dMarkerSize</strong> (<cite>float</cite>, default = 1.0) -- Size of points on plot.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>While intX/Y/Z expect <cite>int</cite>, you may be able to pass in a <cite>str</cite> column name if the df is a pd.DataFrame.  This is untested, but should work.</p>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">DimRed</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-dimred">dimred</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to DimRed's documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Austin Marckx.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
