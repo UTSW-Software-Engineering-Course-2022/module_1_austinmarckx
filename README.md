@@ -107,8 +107,8 @@ pip install -r requirements.txt
 The dimred module supports both python and CLI interfaces. Examples of each are provided below.
 
 ### Python usage
-<br></br>
-### TSNE
+
+#### TSNE
 ```sh
 import numpy as np
 from dimred import TSNE, plot
@@ -131,7 +131,7 @@ plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerS
 
 See figure 1 (below) for plot output.
 
-### GraphDR
+#### GraphDR
 
 ```sh
 import pandas as pd
@@ -180,7 +180,7 @@ labelsfilepath:
     --labelsfilepath=<str> read in labels from file path
 ```
 
-### TSNE
+#### TSNE
 ```sh
 ### Demo data
 python dimred.py tsne --demo=True
