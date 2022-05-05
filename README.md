@@ -110,20 +110,26 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+### Python usage
+
+examples of how to use the module inside python or jupyter
+
+### CLI usage
 ```sh
 # CLI Usage
-Usage:
-  dimred.py tsne [options] 
-  dimred.py tsne <datafilepath> <labelsfilepath>
-  dimred.py graphdr [options] 
-  dimred.py graphdr <datafilepath> <labelsfilepath>
+Usage: 
+    dimred.py tsne [options] 
+    dimred.py tsne <datafilepath> <labelsfilepath> [options]
+    dimred.py graphdr [options]
+    dimred.py graphdr <datafilepath> <labelsfilepath> [options]
 
 options:
-    -p --plot=<bool>   Plot the output          [default: True]
-    -s --save=<bool>   Save plot                [default: True]
-    --htmlPlot=<bool>  Plot saved as html       [default: True]
-    --plot3d=<bool>    Plot in 3D               [default: False]
-    --demo=<bool>      Load and run demo        [default: False]
+    -p --plot=<bool>        Plot the output     [default: True]
+    -s --saveplot=<bool>    Save plot           [default: True]
+    -o --savedata=<bool>    Save output data    [default: True]
+    --htmlPlot=<bool>       Plot saved as html  [default: True]
+    --plot3d=<bool>         Plot in 3D          [default: False]
+    --demo=<bool>           Load and run demo   [default: False]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -132,20 +138,18 @@ labelsfilepath:
     --labelsfilepath=<str> read in labels from file path
 ```
 
-Examples:
+### Examples:
 
-TSNE
+### TSNE
 ```sh
-# Demo data
+### Demo data
 python dimred.py tsne --demo=True
 
 # Or specify your own file paths
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
 ```
 
-
-
-GraphDR
+#### GraphDR
 ```sh
 ### Demo Data:
 # 2D Html output
@@ -157,7 +161,6 @@ python dimred.py graphdr --demo=True --plot3d=True
 python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
 ```
 
-
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -167,22 +170,33 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Full CLI implementation 
-    - [ ] TSNE attributes
-    - [ ] GraphDR
-- [ ] 'Demo' version
-- [ ] Figure out how to document complicated things
-    - [ ] Gains
-    - [ ] Beta/Perplexity
-    - [ ] Tolerance
-- [ ] Clean repo
+- [x] CLI implementation 
+    - [x] TSNE attributes
+    - [x] GraphDR
+- [x] 'Demo' version
+- [x] Figure out how to document complicated things
+    - [x] Gains
+    - [x] Beta/Perplexity
+    - [x] Tolerance
+- [x] Clean repo
     - [x] Separate into folders
         - data
         - images
 - [x] Implement GraphDR
 - [ ] Document GraphDR
+    - [ ] GrapDR method is really sparse on inline comments...
+    - [ ] Higher level understanding/ overview in class docstring would be nice...
+    - [ ] Link to paper/repo page
+- [ ] Document TSNE
+    - [ ] Higher level understanding/ overview in class docstring would be nice...
+    - [ ] Link to paper/repo page
 - [x] Implement Plotly
+    - [x] Plot function (2D and 3D plotly) implemented
 - [ ] Implement Dash interface
+- [ ] CLEAN README!!
+  - [ ] Examples, examples, examples
+  - [ ] update README with CLI examples
+  - [ ] Python usage examples
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
