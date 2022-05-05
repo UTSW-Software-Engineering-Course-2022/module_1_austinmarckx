@@ -75,7 +75,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is where I describe the dimensionality reduction methods implemented here.
+Here we implement two non-linear dimensionality reduction methods.  Links to the original authors are provided:
 - [TSNE](https://lvdmaaten.github.io/tsne/)
 - [GraphDR](https://github.com/jzthree/quasildr)
 
@@ -83,8 +83,6 @@ This is where I describe the dimensionality reduction methods implemented here.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-Getting started instructions...
 
 ### Prerequisites
 
@@ -95,10 +93,9 @@ pip install -r requirements.txt
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
-   ```
+  ```sh
+  git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
+  ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -106,11 +103,11 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+The dimred module supports both python and CLI interfaces. Examples of each are provided below.
+
 ### Python usage
 
-After installing, the following illustrates some
-
-### TSNE
+#### TSNE
 ```sh
 import numpy as np
 from dimred import TSNE, plot
@@ -133,7 +130,7 @@ plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerS
 
 See figure 1 (below) for plot output.
 
-### GraphDR
+#### GraphDR
 
 ```sh
 import pandas as pd
@@ -182,7 +179,7 @@ labelsfilepath:
     --labelsfilepath=<str> read in labels from file path
 ```
 
-### TSNE
+#### TSNE
 ```sh
 ### Demo data
 python dimred.py tsne --demo=True
@@ -221,10 +218,9 @@ python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.a
   <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
-_For more examples, please refer to the [Documentation](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html)_
+_For more examples, please refer to the <a href="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html">Documentation</a>_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -239,12 +235,9 @@ _For more examples, please refer to the [Documentation](https://github.com/UTSW-
 - [ ] Implement Dash interface
 - [ ] New Single cell dataset for Graphdr
 
-
-
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 <!-- LICENSE -->
 ## License
@@ -261,8 +254,6 @@ Austin Marckx - austinmarckx@gmail.com
 Project Link: [https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments

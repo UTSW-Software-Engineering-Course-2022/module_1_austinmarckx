@@ -1,35 +1,67 @@
-
 <!DOCTYPE html>
-
-<html lang="Python">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dimred &#8212; DimRed  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dimred &mdash; DimRed  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> DimRed
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../dimred.html">dimred</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+        </div>
+      </div>
+    </nav>
 
-          <div class="body" role="main">
-            
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">DimRed</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>dimred</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <h1>Source code for dimred</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;DimRed dimension reduction</span>
 
@@ -42,12 +74,13 @@
 <span class="sd">        dimred.py graphdr &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</span>
 
 <span class="sd">    options:</span>
-<span class="sd">        -p --plot=&lt;bool&gt;        Plot the output     [default: True]</span>
-<span class="sd">        -s --saveplot=&lt;bool&gt;    Save plot           [default: True]</span>
-<span class="sd">        -o --savedata=&lt;bool&gt;    Save output data    [default: True]</span>
-<span class="sd">        --htmlPlot=&lt;bool&gt;       Plot saved as html  [default: True]</span>
-<span class="sd">        --plot3d=&lt;bool&gt;         Plot in 3D          [default: False]</span>
-<span class="sd">        --demo=&lt;bool&gt;           Load and run demo   [default: False]</span>
+<span class="sd">        --plot=&lt;bool&gt;        Plot the output     [default: True]</span>
+<span class="sd">        --saveplot=&lt;bool&gt;    Save plot           [default: True]</span>
+<span class="sd">        --savedata=&lt;bool&gt;    Save output data    [default: True]</span>
+<span class="sd">        --hideplot=&lt;bool&gt;    Hide plot output    [default: False]</span>
+<span class="sd">        --htmlPlot=&lt;bool&gt;    Plot saved as html  [default: True]</span>
+<span class="sd">        --plot3d=&lt;bool&gt;      Plot in 3D          [default: False]</span>
+<span class="sd">        --demo=&lt;bool&gt;        Load and run demo   [default: False]</span>
 
 <span class="sd">    datafilepath:</span>
 <span class="sd">        --datafilepath=&lt;str&gt;  read in data from file path</span>
@@ -67,6 +100,7 @@
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">eye</span>
 <span class="kn">from</span> <span class="nn">helperfun</span> <span class="kn">import</span> <span class="n">adjustbeta</span><span class="p">,</span> <span class="n">pca</span>
 <span class="kn">from</span> <span class="nn">docopt</span> <span class="kn">import</span> <span class="n">docopt</span>
+<span class="kn">from</span> <span class="nn">distutils.util</span> <span class="kn">import</span> <span class="n">strtobool</span>
 
 
 <div class="viewcode-block" id="TSNE"><a class="viewcode-back" href="../dimred.html#dimred.TSNE">[docs]</a><span class="k">class</span> <span class="nc">TSNE</span><span class="p">:</span>
@@ -166,6 +200,7 @@
 
 <div class="viewcode-block" id="TSNE.SquareEucDist"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.SquareEucDist">[docs]</a>    <span class="k">def</span> <span class="nf">SquareEucDist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array_nxd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Pairwise Squared Euclidian distance</span>
+<span class="sd">        </span>
 <span class="sd">        .. math::</span>
 <span class="sd">            \\sum_{i\\neqj}||x_{i}-x_{j}||^{2}</span>
 
@@ -534,10 +569,12 @@
     <span class="n">intX</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">intY</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">intZ</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">dScale</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
     <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">bool3D</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">boolSaveFig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">boolHidePlot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">dMarkerSize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Plotly 2D and 3D Scatter plots</span>
@@ -552,6 +589,8 @@
 <span class="sd">        Index of the column to be plotted on the y axis</span>
 <span class="sd">    intZ : `int`, default = 2</span>
 <span class="sd">        Index of the column to be plotted on the z axis</span>
+<span class="sd">    dScale : `float`, default 3.5</span>
+<span class="sd">        Functions like DPI for saving image</span>
 <span class="sd">    labels : 1D.array, default = None</span>
 <span class="sd">        A (n, 1) array of labels for annotating df points.  Note row indexes should match between points</span>
 <span class="sd">    bool3D : `bool`, default = False</span>
@@ -560,6 +599,8 @@
 <span class="sd">        If True the plotted figure will be saved.</span>
 <span class="sd">    boolSaveToHTML : `bool`, default = True</span>
 <span class="sd">        If True, figure saved as html, otherwise saved as jpg</span>
+<span class="sd">    boolHidePlot : `bool`, default = False</span>
+<span class="sd">        If True, plot is not displayed.</span>
 <span class="sd">    dMarkerSize : `float`, default = 1.0</span>
 <span class="sd">        Size of points on plot. </span>
 
@@ -580,9 +621,10 @@
         <span class="k">if</span> <span class="n">boolSaveToHTML</span><span class="p">:</span>
             <span class="n">fig</span><span class="o">.</span><span class="n">write_html</span><span class="p">(</span><span class="s2">&quot;fig1.html&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">fig</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;fig1.jpeg&quot;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span><span class="s2">&quot;fig1.jpeg&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">dScale</span><span class="p">)</span>
 
-    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">boolHidePlot</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../dimred.html#dimred.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -591,19 +633,20 @@
 
     <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;tsne&quot;</span><span class="p">]):</span>
         <span class="c1"># Demo version</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">]):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to TSNE Demo!&quot;</span><span class="p">)</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;./data/demo_mnist2500_X.txt&quot;</span><span class="p">)</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;./data/demo_mnist2500_labels.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">pca</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
-            <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">intMaxIter</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">intMaxIter</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
             <span class="n">Z</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">TSNE</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot&quot;</span><span class="p">]):</span>
                 <span class="n">plot</span><span class="p">(</span>
                     <span class="n">Z</span><span class="p">,</span>
                     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-                    <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">],</span>
-                    <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">],</span>
+                    <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">]),</span>
+                    <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">]),</span>
+                    <span class="n">boolHidePlot</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--hideplot&quot;</span><span class="p">]),</span>
                     <span class="n">dMarkerSize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="c1"># Perform on filepath inputs</span>
@@ -613,23 +656,24 @@
             <span class="n">X</span> <span class="o">=</span> <span class="n">pca</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
             <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">intMaxIter</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
             <span class="n">Z</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">TSNE</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot&quot;</span><span class="p">]):</span>
                 <span class="n">plot</span><span class="p">(</span>
                     <span class="n">Z</span><span class="p">,</span>
                     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-                    <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">],</span>
-                    <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">],</span>
+                    <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">]),</span>
+                    <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">]),</span>
+                    <span class="n">boolHidePlot</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--hideplot&quot;</span><span class="p">]),</span>
                     <span class="n">dMarkerSize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                 <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--savedata&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--savedata&quot;</span><span class="p">]):</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;tsne_output.csv&quot;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="nb">bool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;graphdr&quot;</span><span class="p">]):</span>
         <span class="c1"># Demo Version</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">]):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to GraphDR Demo!&quot;</span><span class="p">)</span>
-            <span class="n">GDR</span> <span class="o">=</span> <span class="n">GraphDR</span><span class="p">(</span><span class="n">boolDemo</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">])</span>
+            <span class="n">GDR</span> <span class="o">=</span> <span class="n">GraphDR</span><span class="p">(</span><span class="n">boolDemo</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--demo&quot;</span><span class="p">]))</span>
         <span class="c1"># Perform on filepath inputs</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">GDR</span> <span class="o">=</span> <span class="n">GraphDR</span><span class="p">(</span>
@@ -638,15 +682,16 @@
             <span class="p">)</span>
         <span class="n">Z</span> <span class="o">=</span> <span class="n">GDR</span><span class="o">.</span><span class="n">GraphDR</span><span class="p">()</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">GDR</span><span class="o">.</span><span class="n">pdfAnno</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot&quot;</span><span class="p">]):</span>
             <span class="n">plot</span><span class="p">(</span>
                 <span class="n">Z</span><span class="p">,</span>
                 <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
-                <span class="n">bool3D</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot3d&quot;</span><span class="p">],</span>
-                <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">],</span>
-                <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">],</span>
+                <span class="n">bool3D</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--plot3d&quot;</span><span class="p">]),</span>
+                <span class="n">boolSaveFig</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--saveplot&quot;</span><span class="p">]),</span>
+                <span class="n">boolSaveToHTML</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--htmlPlot&quot;</span><span class="p">]),</span>
+                <span class="n">boolHidePlot</span><span class="o">=</span><span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--hideplot&quot;</span><span class="p">]),</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;--savedata&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">strtobool</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;--savedata&quot;</span><span class="p">]):</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;graphdr_output.csv&quot;</span><span class="p">)</span></div>
 
 
@@ -654,68 +699,31 @@
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
+           </div>
           </div>
-          
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Austin Marckx.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">DimRed</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../dimred.html">dimred</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Austin Marckx.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>
