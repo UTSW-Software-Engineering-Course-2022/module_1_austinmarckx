@@ -210,7 +210,7 @@ python dimred.py graphdr --demo=True
 python dimred.py graphdr --demo=True --plot3d=True
 
 # Or specify your own file paths
-python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
+python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --saveplot=False --plot3d=True
 ```
 
 <figure>
