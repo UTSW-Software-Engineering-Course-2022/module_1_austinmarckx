@@ -75,7 +75,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is where I describe the dimensionality reduction methods implemented here.
+Here we implement two non-linear dimensionality reduction methods.  Links to the original authors are provided:
 - [TSNE](https://lvdmaaten.github.io/tsne/)
 - [GraphDR](https://github.com/jzthree/quasildr)
 
@@ -83,8 +83,6 @@ This is where I describe the dimensionality reduction methods implemented here.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-Getting started instructions...
 
 ### Prerequisites
 
@@ -106,9 +104,9 @@ pip install -r requirements.txt
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-### Python usage
+The dimred module supports both python and CLI interfaces. Examples of each are provided below.
 
-After installing, the following illustrates some
+### Python usage
 
 ### TSNE
 ```sh
@@ -225,7 +223,6 @@ _For more examples, please refer to the <a href="https://github.com/UTSW-Softwar
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
 <!-- ROADMAP -->
 ## Roadmap
 
@@ -239,12 +236,9 @@ _For more examples, please refer to the <a href="https://github.com/UTSW-Softwar
 - [ ] Implement Dash interface
 - [ ] New Single cell dataset for Graphdr
 
-
-
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 <!-- LICENSE -->
 ## License
@@ -261,8 +255,6 @@ Austin Marckx - austinmarckx@gmail.com
 Project Link: [https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
