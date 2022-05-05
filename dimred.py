@@ -1,22 +1,27 @@
-"""Usage: 
-    dimred.py tsne [options] 
-    dimred.py tsne <datafilepath> <labelsfilepath> [options]
-    dimred.py graphdr [options]
-    dimred.py graphdr <datafilepath> <labelsfilepath> [options]
+"""DimRed dimension reduction
 
-options:
-    -p --plot=<bool>        Plot the output     [default: True]
-    -s --saveplot=<bool>    Save plot           [default: True]
-    -o --savedata=<bool>    Save output data    [default: True]
-    --htmlPlot=<bool>       Plot saved as html  [default: True]
-    --plot3d=<bool>         Plot in 3D          [default: False]
-    --demo=<bool>           Load and run demo   [default: False]
+Command line interface::
 
-datafilepath:
-    --datafilepath=<str>  read in data from file path
+    Usage: 
+        dimred.py tsne [options] 
+        dimred.py tsne <datafilepath> <labelsfilepath> [options]
+        dimred.py graphdr [options]
+        dimred.py graphdr <datafilepath> <labelsfilepath> [options]
 
-labelsfilepath:    
-    --labelsfilepath=<str> read in labels from file path
+    options:
+        --plot=<bool>        Plot the output     [default: True]
+        --saveplot=<bool>    Save plot           [default: True]
+        --savedata=<bool>    Save output data    [default: True]
+        --hideplot=<bool>    Hide plot output    [default: False]
+        --htmlPlot=<bool>    Plot saved as html  [default: True]
+        --plot3d=<bool>      Plot in 3D          [default: False]
+        --demo=<bool>        Load and run demo   [default: False]
+
+    datafilepath:
+        --datafilepath=<str>  read in data from file path
+
+    labelsfilepath:    
+        --labelsfilepath=<str> read in labels from file path
 
 """
 
@@ -30,6 +35,7 @@ from scipy.sparse.csgraph import laplacian
 from scipy.sparse import eye
 from helperfun import adjustbeta, pca
 from docopt import docopt
+from distutils.util import strtobool
 
 
 class TSNE:
@@ -129,9 +135,10 @@ class TSNE:
 
     def SquareEucDist(self, array_nxd: np.ndarray) -> np.ndarray:
         """Pairwise Squared Euclidian distance
-        .. math::
-            \sum_{i \neq j}||x_{i} - x_{j}||^{2}
         
+        .. math::
+            \\sum_{i\\neqj}||x_{i}-x_{j}||^{2}
+
         Parameters
         ----------
         array_nxd : np.ndarray
@@ -453,11 +460,11 @@ class GraphDR:
             return preprocessed_data
 
     def GraphDR(self):
-        """ Document why the hell this works
+        """ GraphDR Quasilinear Dimensionality Reduction
         
         Returns
         -------
-        pdfGraphDROutput : 'pd.DataFrame'
+        pdfGraphDROutput : `pd.DataFrame`
             Output dataframe after GraphDR has been performed
 
         """
@@ -497,10 +504,12 @@ def plot(
     intX=0,
     intY=1,
     intZ=2,
+    dScale = 3.5,
     labels=None,
     bool3D=False,
     boolSaveFig=False,
     boolSaveToHTML=True,
+    boolHidePlot = False,
     dMarkerSize=1.0,
 ):
     """ Plotly 2D and 3D Scatter plots
@@ -515,6 +524,8 @@ def plot(
         Index of the column to be plotted on the y axis
     intZ : `int`, default = 2
         Index of the column to be plotted on the z axis
+    dScale : `float`, default 3.5
+        Functions like DPI for saving image
     labels : 1D.array, default = None
         A (n, 1) array of labels for annotating df points.  Note row indexes should match between points
     bool3D : `bool`, default = False
@@ -523,6 +534,8 @@ def plot(
         If True the plotted figure will be saved.
     boolSaveToHTML : `bool`, default = True
         If True, figure saved as html, otherwise saved as jpg
+    boolHidePlot : `bool`, default = False
+        If True, plot is not displayed.
     dMarkerSize : `float`, default = 1.0
         Size of points on plot. 
 
@@ -543,9 +556,10 @@ def plot(
         if boolSaveToHTML:
             fig.write_html("fig1.html")
         else:
-            fig.write_image("fig1.jpeg")
+            fig.write_image("fig1.jpeg", scale = dScale)
 
-    fig.show()
+    if not boolHidePlot:
+        fig.show()
 
 
 def main():
@@ -554,20 +568,21 @@ def main():
 
     if bool(args["tsne"]):
         # Demo version
-        if args["--demo"] == "True":
+        if strtobool(args["--demo"]):
             print("Welcome to TSNE Demo!")
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
             labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
             X = pca(X, 50)
             tsne = TSNE(X, intMaxIter=10)
             Z = tsne.TSNE()
-            if args["--saveplot"]:
+            if strtobool(args["--plot"]):
                 plot(
                     Z,
                     labels=labels,
-                    boolSaveFig=args["--saveplot"],
-                    boolSaveToHTML=args["--htmlPlot"],
-                    dMarkerSize=5,
+                    boolSaveFig=strtobool(args["--saveplot"]),
+                    boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                    boolHidePlot=strtobool(args['--hideplot']),
+                    dMarkerSize=5
                 )
         # Perform on filepath inputs
         else:
@@ -576,23 +591,24 @@ def main():
             X = pca(X, 50)
             tsne = TSNE(X, intMaxIter=20)
             Z = tsne.TSNE()
-            if args["--plot"]:
+            if strtobool(args["--plot"]):
                 plot(
                     Z,
                     labels=labels,
-                    boolSaveFig=args["--saveplot"],
-                    boolSaveToHTML=args["--htmlPlot"],
-                    dMarkerSize=5,
+                    boolSaveFig=strtobool(args["--saveplot"]),
+                    boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                    boolHidePlot=strtobool(args['--hideplot']),
+                    dMarkerSize=5
                 )
 
-        if args["--savedata"]:
+        if strtobool(args["--savedata"]):
             pd.DataFrame(Z).to_csv("tsne_output.csv")
 
     elif bool(args["graphdr"]):
         # Demo Version
-        if args["--demo"] == "True":
+        if strtobool(args["--demo"]):
             print("Welcome to GraphDR Demo!")
-            GDR = GraphDR(boolDemo=args["--demo"])
+            GDR = GraphDR(boolDemo=strtobool(args["--demo"]))
         # Perform on filepath inputs
         else:
             GDR = GraphDR(
@@ -601,15 +617,16 @@ def main():
             )
         Z = GDR.GraphDR()
         labels = GDR.pdfAnno
-        if args["--plot"]:
+        if strtobool(args["--plot"]):
             plot(
                 Z,
                 labels=labels,
-                bool3D=args["--plot3d"],
-                boolSaveFig=args["--saveplot"],
-                boolSaveToHTML=args["--htmlPlot"],
+                bool3D=strtobool(args["--plot3d"]),
+                boolSaveFig=strtobool(args["--saveplot"]),
+                boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                boolHidePlot=strtobool(args['--hideplot'])
             )
-        if args["--savedata"]:
+        if strtobool(args["--savedata"]):
             pd.DataFrame(Z).to_csv("graphdr_output.csv")
 
 

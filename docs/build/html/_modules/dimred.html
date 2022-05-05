@@ -31,25 +31,29 @@
           <div class="body" role="main">
             
   <h1>Source code for dimred</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Usage: </span>
-<span class="sd">    dimred.py tsne [options] </span>
-<span class="sd">    dimred.py tsne &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</span>
-<span class="sd">    dimred.py graphdr [options]</span>
-<span class="sd">    dimred.py graphdr &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</span>
+<span></span><span class="sd">&quot;&quot;&quot;DimRed dimension reduction</span>
 
-<span class="sd">options:</span>
-<span class="sd">    -p --plot=&lt;bool&gt;        Plot the output     [default: True]</span>
-<span class="sd">    -s --saveplot=&lt;bool&gt;    Save plot           [default: True]</span>
-<span class="sd">    -o --savedata=&lt;bool&gt;    Save output data    [default: True]</span>
-<span class="sd">    --htmlPlot=&lt;bool&gt;       Plot saved as html  [default: True]</span>
-<span class="sd">    --plot3d=&lt;bool&gt;         Plot in 3D          [default: False]</span>
-<span class="sd">    --demo=&lt;bool&gt;           Load and run demo   [default: False]</span>
+<span class="sd">Command line interface::</span>
 
-<span class="sd">datafilepath:</span>
-<span class="sd">    --datafilepath=&lt;str&gt;  read in data from file path</span>
+<span class="sd">    Usage: </span>
+<span class="sd">        dimred.py tsne [options] </span>
+<span class="sd">        dimred.py tsne &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</span>
+<span class="sd">        dimred.py graphdr [options]</span>
+<span class="sd">        dimred.py graphdr &lt;datafilepath&gt; &lt;labelsfilepath&gt; [options]</span>
 
-<span class="sd">labelsfilepath:    </span>
-<span class="sd">    --labelsfilepath=&lt;str&gt; read in labels from file path</span>
+<span class="sd">    options:</span>
+<span class="sd">        -p --plot=&lt;bool&gt;        Plot the output     [default: True]</span>
+<span class="sd">        -s --saveplot=&lt;bool&gt;    Save plot           [default: True]</span>
+<span class="sd">        -o --savedata=&lt;bool&gt;    Save output data    [default: True]</span>
+<span class="sd">        --htmlPlot=&lt;bool&gt;       Plot saved as html  [default: True]</span>
+<span class="sd">        --plot3d=&lt;bool&gt;         Plot in 3D          [default: False]</span>
+<span class="sd">        --demo=&lt;bool&gt;           Load and run demo   [default: False]</span>
+
+<span class="sd">    datafilepath:</span>
+<span class="sd">        --datafilepath=&lt;str&gt;  read in data from file path</span>
+
+<span class="sd">    labelsfilepath:    </span>
+<span class="sd">        --labelsfilepath=&lt;str&gt; read in labels from file path</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -65,7 +69,7 @@
 <span class="kn">from</span> <span class="nn">docopt</span> <span class="kn">import</span> <span class="n">docopt</span>
 
 
-<div class="viewcode-block" id="TSNE"><a class="viewcode-back" href="../usage.html#dimred.TSNE">[docs]</a><span class="k">class</span> <span class="nc">TSNE</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE"><a class="viewcode-back" href="../dimred.html#dimred.TSNE">[docs]</a><span class="k">class</span> <span class="nc">TSNE</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; TSNE dimensionality reduction</span>
 
 <span class="sd">    t-distributed stochastic neighbor embedding (TSNE) nonlinear dimensionality reduction.</span>
@@ -160,11 +164,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">arrNxNInputProbs</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">KLDiv</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="TSNE.SquareEucDist"><a class="viewcode-back" href="../usage.html#dimred.TSNE.SquareEucDist">[docs]</a>    <span class="k">def</span> <span class="nf">SquareEucDist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array_nxd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.SquareEucDist"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.SquareEucDist">[docs]</a>    <span class="k">def</span> <span class="nf">SquareEucDist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">array_nxd</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Pairwise Squared Euclidian distance</span>
 <span class="sd">        .. math::</span>
-<span class="sd">            \sum_{i \neq j}||x_{i} - x_{j}||^{2}</span>
-<span class="sd">        </span>
+<span class="sd">            \\sum_{i\\neqj}||x_{i}-x_{j}||^{2}</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        array_nxd : np.ndarray</span>
@@ -180,7 +184,7 @@
         <span class="n">arrNxNSquareEucDistMat</span> <span class="o">=</span> <span class="n">Xsum</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">twoXiXj</span> <span class="o">+</span> <span class="n">Xsum</span>
         <span class="k">return</span> <span class="n">arrNxNSquareEucDistMat</span></div>
 
-<div class="viewcode-block" id="TSNE.GetAdjustedBeta"><a class="viewcode-back" href="../usage.html#dimred.TSNE.GetAdjustedBeta">[docs]</a>    <span class="k">def</span> <span class="nf">GetAdjustedBeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TSNE.GetAdjustedBeta"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.GetAdjustedBeta">[docs]</a>    <span class="k">def</span> <span class="nf">GetAdjustedBeta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the beta using tolerance and perplexity</span>
 
 <span class="sd">        Returns</span>
@@ -206,7 +210,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrInputProbs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr1DBeta</span></div>
 
-<div class="viewcode-block" id="TSNE.Calc_p_ij"><a class="viewcode-back" href="../usage.html#dimred.TSNE.Calc_p_ij">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_p_ij</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.Calc_p_ij"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.Calc_p_ij">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_p_ij</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Gaussian probability matrix from input array pairwise distances</span>
 <span class="sd">        .. math::</span>
 <span class="sd">            p_{ij} = \frac{p_{j|i} + p_{i|j}}/{\sum_{k \neq l}p_{k|l} + p_{l|k}}</span>
@@ -235,7 +239,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrInputProbs_ij_mat</span></div>
 
-<div class="viewcode-block" id="TSNE.Calc_q_ij"><a class="viewcode-back" href="../usage.html#dimred.TSNE.Calc_q_ij">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_q_ij</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.Calc_q_ij"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.Calc_q_ij">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_q_ij</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Represent distance with t-distribution (df = 1)</span>
 <span class="sd">        .. math::</span>
 <span class="sd">            q_{ij} = \frac{1 + -||y_{i} - y_{j}||^{2}}^{-1}/{\sum_{i \neq k}1 + -||y_{k} - y_{l}||^{2}}^{-1}</span>
@@ -254,7 +258,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">q_ij_mat</span> <span class="o">=</span> <span class="p">(</span><span class="n">num</span> <span class="o">/</span> <span class="n">denom</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dMinProb</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_ij_mat</span></div>
 
-<div class="viewcode-block" id="TSNE.Calc_dY"><a class="viewcode-back" href="../usage.html#dimred.TSNE.Calc_dY">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_dY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.Calc_dY"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.Calc_dY">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_dY</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Calculate the gradient for Y&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arrInputProbs_ij_mat</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_ij_mat</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
@@ -264,7 +268,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dY</span></div>
 
-<div class="viewcode-block" id="TSNE.Calc_gains"><a class="viewcode-back" href="../usage.html#dimred.TSNE.Calc_gains">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_gains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.Calc_gains"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.Calc_gains">[docs]</a>    <span class="k">def</span> <span class="nf">Calc_gains</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Calculate the gain form signs of dY and deltaY</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arr1DGains</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr1DGains</span> <span class="o">+</span> <span class="mf">0.2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
@@ -272,7 +276,7 @@
         <span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr1DGains</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">dY</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr1DDeltaY</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr1DGains</span></div>
 
-<div class="viewcode-block" id="TSNE.KLDivergence"><a class="viewcode-back" href="../usage.html#dimred.TSNE.KLDivergence">[docs]</a>    <span class="k">def</span> <span class="nf">KLDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TSNE.KLDivergence"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.KLDivergence">[docs]</a>    <span class="k">def</span> <span class="nf">KLDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Calculate the KL Divergence for the current step&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">KLDiv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">arrInputProbs_ij_mat</span>
@@ -280,7 +284,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">KLDiv</span></div>
 
-<div class="viewcode-block" id="TSNE.TSNE"><a class="viewcode-back" href="../usage.html#dimred.TSNE.TSNE">[docs]</a>    <span class="k">def</span> <span class="nf">TSNE</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="TSNE.TSNE"><a class="viewcode-back" href="../dimred.html#dimred.TSNE.TSNE">[docs]</a>    <span class="k">def</span> <span class="nf">TSNE</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;TSNE</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
@@ -319,7 +323,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrNxNDimsOutput</span></div></div>
 
 
-<div class="viewcode-block" id="GraphDR"><a class="viewcode-back" href="../usage.html#dimred.GraphDR">[docs]</a><span class="k">class</span> <span class="nc">GraphDR</span><span class="p">:</span>
+<div class="viewcode-block" id="GraphDR"><a class="viewcode-back" href="../dimred.html#dimred.GraphDR">[docs]</a><span class="k">class</span> <span class="nc">GraphDR</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; GraphDR Quasilinear Dimensionality Reduction</span>
 <span class="sd">   </span>
 <span class="sd">    Attributes:</span>
@@ -428,7 +432,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">intNDims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdfInput</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<div class="viewcode-block" id="GraphDR.Preprocess"><a class="viewcode-back" href="../usage.html#dimred.GraphDR.Preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">Preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdfInput</span><span class="p">,</span> <span class="n">boolDoPCA</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">intPCANumDims</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphDR.Preprocess"><a class="viewcode-back" href="../dimred.html#dimred.GraphDR.Preprocess">[docs]</a>    <span class="k">def</span> <span class="nf">Preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdfInput</span><span class="p">,</span> <span class="n">boolDoPCA</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">intPCANumDims</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Provided preprocessing</span>
 <span class="sd">        </span>
 <span class="sd">        This describes what steps are done in preprocessing the data</span>
@@ -485,12 +489,12 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">preprocessed_data</span></div>
 
-<div class="viewcode-block" id="GraphDR.GraphDR"><a class="viewcode-back" href="../usage.html#dimred.GraphDR.GraphDR">[docs]</a>    <span class="k">def</span> <span class="nf">GraphDR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Document why the hell this works</span>
+<div class="viewcode-block" id="GraphDR.GraphDR"><a class="viewcode-back" href="../dimred.html#dimred.GraphDR.GraphDR">[docs]</a>    <span class="k">def</span> <span class="nf">GraphDR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; GraphDR Quasilinear Dimensionality Reduction</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        pdfGraphDROutput : &#39;pd.DataFrame&#39;</span>
+<span class="sd">        pdfGraphDROutput : `pd.DataFrame`</span>
 <span class="sd">            Output dataframe after GraphDR has been performed</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -525,7 +529,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdfGraphDROutput</span></div></div>
 
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../usage.html#dimred.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../dimred.html#dimred.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
     <span class="n">df</span><span class="p">,</span>
     <span class="n">intX</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">intY</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -581,7 +585,7 @@
     <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../usage.html#dimred.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../dimred.html#dimred.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Handle CLI Inputs&quot;&quot;&quot;</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">docopt</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 
@@ -667,8 +671,7 @@
 
 <h3>Navigation</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usage.html#module-dimred">dimred</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dimred.html">dimred</a></li>
 </ul>
 
 <div class="relations">

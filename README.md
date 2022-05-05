@@ -5,6 +5,7 @@
 *** or simply open an issue with the tag "enhancement".
 *** Don't forget to give the project a star!
 *** Thanks again! Now go create something AMAZING! :D
+*** Link : https://raw.githubusercontent.com/othneildrew/Best-README-Template/master/BLANK_README.md
 -->
 
 <!-- PROJECT SHIELDS -->
@@ -98,13 +99,8 @@ pip install -r requirements.txt
    ```sh
    git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
    ```
-2. Do some other stuff 
-   ```sh
-   git good at programing
-   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
@@ -181,8 +177,6 @@ labelsfilepath:
     --labelsfilepath=<str> read in labels from file path
 ```
 
-### Examples:
-
 ### TSNE
 ```sh
 ### Demo data
@@ -191,6 +185,8 @@ python dimred.py tsne --demo=True
 # Or specify your own file paths
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
 ```
+
+<img src="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/images/demo_mnist_tsne_1000" width = "500">
 
 #### GraphDR
 ```sh
