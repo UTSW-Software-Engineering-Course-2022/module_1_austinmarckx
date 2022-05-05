@@ -166,11 +166,11 @@ class TSNE:
 
         Notes
         -----
-        This is a wrapper for the adjustbeta.adjustbeta function.
+        This is a wrapper for the helperfun.adjustbeta function.
 
         See Also
         --------
-        adjustbeta.py
+        helperfun.py
         """
         self.arrInputProbs, self.arr1DBeta = adjustbeta(
             self.arrNxdInput,
