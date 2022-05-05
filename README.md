@@ -163,12 +163,13 @@ Usage:
     dimred.py graphdr <datafilepath> <labelsfilepath> [options]
 
 options:
-    -p --plot=<bool>        Plot the output     [default: True]
-    -s --saveplot=<bool>    Save plot           [default: True]
-    -o --savedata=<bool>    Save output data    [default: True]
-    --htmlPlot=<bool>       Plot saved as html  [default: True]
-    --plot3d=<bool>         Plot in 3D          [default: False]
-    --demo=<bool>           Load and run demo   [default: False]
+    --plot=<bool>        Plot the output     [default: True]
+    --saveplot=<bool>    Save plot           [default: True]
+    --savedata=<bool>    Save output data    [default: True]
+    --hideplot=<bool>    Hide plot output    [default: False]
+    --htmlPlot=<bool>    Plot saved as html  [default: True]
+    --plot3d=<bool>      Plot in 3D          [default: False]
+    --demo=<bool>        Load and run demo   [default: False]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -193,17 +194,22 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 ### Demo Data:
 # 2D Html output
 python dimred.py graphdr --demo=True
+```
+
+<img src="./images/demo_graphdr_2d.jpeg" width = "500">
+
+```sh
 # 3D Html output
 python dimred.py graphdr --demo=True --plot3d=True
 
 # Or specify your own file paths
 python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
 ```
+<img src="./images/demo_graphdr_3d.jpeg" width = "500">
 
 _For more examples, please refer to the [Documentation](./docs/build/html/index.html)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->
