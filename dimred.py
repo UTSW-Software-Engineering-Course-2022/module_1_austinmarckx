@@ -360,7 +360,7 @@ class GraphDR:
         boolPreprocessData: bool = True,
         boolDoPCA: bool = True,
         intPCANumComponents: int = 20,
-        boolDemo: bool = True,
+        boolDemo: bool = False,
     ) -> None:
         # Init everything
         self.pdfInput = pdfInput
@@ -402,7 +402,7 @@ class GraphDR:
         else:
             self.intNDims = self.pdfInput.shape[1]
 
-    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims: int):
+    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims = None):
         """ Provided preprocessing
         
         This describes what steps are done in preprocessing the data
@@ -446,7 +446,9 @@ class GraphDR:
 
         # standard scaling
         preprocessed_data_mean = preprocessed_data.mean(axis=1)
-        preprocessed_data_std = preprocessed_data.std(axis=1)
+        preprocessed_data_std = preprocessed_data.std(axis=1) 
+        # If the standard deviation = 0, set stdev = 1 to avoid NaN
+        preprocessed_data_std[preprocessed_data_std == 0] = 1
         preprocessed_data = (
             preprocessed_data - preprocessed_data_mean[:, None]
         ) / preprocessed_data_std[:, None]
