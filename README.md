@@ -131,6 +131,8 @@ tsneOutput = tsne.TSNE()
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
+See figure 1 (below) for plot output.
+
 ### GraphDR
 
 ```sh
@@ -150,6 +152,8 @@ labels = GDR.pdfAnno
 
 plot(GDROutput, labels=labels, boolSaveFig=True, boolSaveToHTML=True)
 ```
+
+See figures 2 and 3 (below) for plot output.
 
 Note that if a file path is passed into GraphDR, the default read option is identical to option 1.
 
@@ -186,6 +190,7 @@ python dimred.py tsne --demo=True
 # Or specify your own file paths
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
 ```
+
 <figure>
   <img src="./images/demo_mnist_tsne_1000.png", width = "500">
   <figcaption>Fig 1. TSNE on Demo Data (1000 steps).</figcaption>
@@ -198,7 +203,10 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 python dimred.py graphdr --demo=True
 ```
 
-<img src="./images/demo_graphdr_2d.jpeg" width = "500">
+<figure>
+  <img src="./images/demo_graphdr_2d.jpeg", width = "500">
+  <figcaption>Fig 2. 2D GraphDR on Demo Data.</figcaption>
+</figure>
 
 ```sh
 # 3D Html output
@@ -207,7 +215,10 @@ python dimred.py graphdr --demo=True --plot3d=True
 # Or specify your own file paths
 python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
 ```
-<img src="./images/demo_graphdr_3d.jpeg" width = "500">
+<figure>
+  <img src="./images/demo_graphdr_3d.jpeg", width = "500">
+  <figcaption>Fig 3. 3D GraphDR on Demo Data.</figcaption>
+</figure>
 
 _For more examples, please refer to the [Documentation](./docs/build/html/index.html)_
 
