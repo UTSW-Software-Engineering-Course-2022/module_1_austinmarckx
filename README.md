@@ -193,7 +193,7 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 
 <figure>
   <img src="./images/demo_tsne_1000.jpeg", width = "500">
-  <figcaption>Fig 1. TSNE on Demo Data (1000 steps).</figcaption>
+  <figcaption><b>Fig 1.</b> TSNE on Demo Data (1000 steps).</figcaption>
 </figure>
 
 #### GraphDR
@@ -205,7 +205,7 @@ python dimred.py graphdr --demo=True
 
 <figure>
   <img src="./images/demo_graphdr_2d.jpeg", width = "500">
-  <figcaption>Fig 2. 2D GraphDR on Demo Data.</figcaption>
+  <figcaption> <b>Fig 2.</b> 2D GraphDR on Demo Data.</figcaption>
 </figure>
 
 ```sh
@@ -218,7 +218,7 @@ python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.a
 
 <figure>
   <img src="./images/demo_graphdr_3d.jpeg", width = "500">
-  <figcaption>*Fig 3.* 3D GraphDR on Demo Data.</figcaption>
+  <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
 _For more examples, please refer to the [Documentation](./docs/build/html/index.html)_
