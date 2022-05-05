@@ -192,7 +192,7 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 ```
 
 <figure>
-  <img src="./images/demo_mnist_tsne_1000.png", width = "500">
+  <img src="./images/demo_tsne_1000.jpeg", width = "500">
   <figcaption>Fig 1. TSNE on Demo Data (1000 steps).</figcaption>
 </figure>
 
@@ -215,9 +215,10 @@ python dimred.py graphdr --demo=True --plot3d=True
 # Or specify your own file paths
 python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
 ```
+
 <figure>
   <img src="./images/demo_graphdr_3d.jpeg", width = "500">
-  <figcaption>Fig 3. 3D GraphDR on Demo Data.</figcaption>
+  <figcaption>*Fig 3.* 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
 _For more examples, please refer to the [Documentation](./docs/build/html/index.html)_

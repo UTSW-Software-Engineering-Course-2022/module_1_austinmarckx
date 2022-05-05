@@ -573,7 +573,7 @@ def main():
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
             labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
             X = pca(X, 50)
-            tsne = TSNE(X, intMaxIter=10)
+            tsne = TSNE(X, intMaxIter=1000)
             Z = tsne.TSNE()
             if strtobool(args["--plot"]):
                 plot(
