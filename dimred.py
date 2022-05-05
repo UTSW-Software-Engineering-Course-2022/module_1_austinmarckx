@@ -402,7 +402,7 @@ class GraphDR:
         else:
             self.intNDims = self.pdfInput.shape[1]
 
-    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims = None):
+    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims=None):
         """ Provided preprocessing
         
         This describes what steps are done in preprocessing the data
@@ -410,11 +410,12 @@ class GraphDR:
         Attributes
         ----------
         pdfInput : `pd.DataFrame`
-            pandas dataframe containing raw data.
-            (Insert description of preprocessed data)
+            pandas dataframe containing raw data. All data should be numeric
+            - Columns should be 'cells'
+            - Rows should be 'genes'
         boolDoPCA : `bool`
             Flag: Should PCA be done?
-        intPCANumDims : `int` 
+        intPCANumDims : `int`, default = None
             Number of PCA dimensions.
         
         Returns
@@ -446,7 +447,7 @@ class GraphDR:
 
         # standard scaling
         preprocessed_data_mean = preprocessed_data.mean(axis=1)
-        preprocessed_data_std = preprocessed_data.std(axis=1) 
+        preprocessed_data_std = preprocessed_data.std(axis=1)
         # If the standard deviation = 0, set stdev = 1 to avoid NaN
         preprocessed_data_std[preprocessed_data_std == 0] = 1
         preprocessed_data = (
