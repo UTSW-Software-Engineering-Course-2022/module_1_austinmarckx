@@ -204,7 +204,7 @@ python dimred.py graphdr --demo=True --plot3d=True
 python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
 ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](./docs/build/html/index.html)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
