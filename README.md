@@ -5,6 +5,7 @@
 *** or simply open an issue with the tag "enhancement".
 *** Don't forget to give the project a star!
 *** Thanks again! Now go create something AMAZING! :D
+*** Link : https://raw.githubusercontent.com/othneildrew/Best-README-Template/master/BLANK_README.md
 -->
 
 <!-- PROJECT SHIELDS -->
@@ -71,21 +72,19 @@
 </details>
 
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 This is where I describe the dimensionality reduction methods implemented here.
-- TSNE
-- GraphDR
+- [TSNE](https://lvdmaaten.github.io/tsne/)
+- [GraphDR](https://github.com/jzthree/quasildr)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Getting started instructions...
 
 ### Prerequisites
 
@@ -100,45 +99,147 @@ pip install -r requirements.txt
    ```sh
    git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
    ```
-2. Do some other stuff 
-   ```sh
-   git good at programing
-   ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Python usage
 
+After installing, the following illustrates some
+
+### TSNE
 ```sh
-python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt
+import numpy as np
+from dimred import TSNE, plot
+from helperfun import pca
+
+# Load your data
+X = np.loadtxt("path/to/data")
+labels = np.loadtxt("path/to/labels").astype(str)
+X = pca(X,50)
+
+# Max iterations default: 1000, change for more/less clustering and runtime
+tsne = TSNE(X, intMaxIter=10)
+tsneOutput = tsne.TSNE()
+
+# Plot.
+# If SaveToHTML is false then the figure is saved as jpeg.
+# Note: if you want to run this in jupyter, you may need to install kaleido
+plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+See figure 1 (below) for plot output.
+
+### GraphDR
+
+```sh
+import pandas as pd
+from dimred import GraphDR, plot
+
+# Option 1: Pass data into GraphDR class
+pdfInput = pd.read_csv("path/to/data", sep="\t", index_col=0)
+labels = pd.read_csv("path/to/labels", sep="\t", header=None)[1].values
+GDR = GraphDR(pdfInput=pdfInput)
+GDROutput = GDR.GraphDR()
+
+# Option 2: Pass filepath into GraphDR class
+GDR = GraphDR(strDataFilePath="path/to/data", strAnnoFilePath="path/to/labels")
+GDROutput = GDR.GraphDR()
+labels = GDR.pdfAnno
+
+plot(GDROutput, labels=labels, boolSaveFig=True, boolSaveToHTML=True)
+```
+
+See figures 2 and 3 (below) for plot output.
+
+Note that if a file path is passed into GraphDR, the default read option is identical to option 1.
+
+### CLI usage
+```sh
+# CLI Usage
+Usage: 
+    dimred.py tsne [options] 
+    dimred.py tsne <datafilepath> <labelsfilepath> [options]
+    dimred.py graphdr [options]
+    dimred.py graphdr <datafilepath> <labelsfilepath> [options]
+
+options:
+    --plot=<bool>        Plot the output     [default: True]
+    --saveplot=<bool>    Save plot           [default: True]
+    --savedata=<bool>    Save output data    [default: True]
+    --hideplot=<bool>    Hide plot output    [default: False]
+    --htmlPlot=<bool>    Plot saved as html  [default: True]
+    --plot3d=<bool>      Plot in 3D          [default: False]
+    --demo=<bool>        Load and run demo   [default: False]
+
+datafilepath:
+    --datafilepath=<str>  read in data from file path
+
+labelsfilepath:    
+    --labelsfilepath=<str> read in labels from file path
+```
+
+### TSNE
+```sh
+### Demo data
+python dimred.py tsne --demo=True
+
+# Or specify your own file paths
+python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
+```
+
+<figure>
+  <img src="./images/demo_tsne_1000.jpeg", width = "500">
+  <figcaption><b>Fig 1.</b> TSNE on Demo Data (1000 steps).</figcaption>
+</figure>
+
+#### GraphDR
+```sh
+### Demo Data:
+# 2D Html output
+python dimred.py graphdr --demo=True
+```
+
+<figure>
+  <img src="./images/demo_graphdr_2d.jpeg", width = "500">
+  <figcaption> <b>Fig 2.</b> 2D GraphDR on Demo Data.</figcaption>
+</figure>
+
+```sh
+# 3D Html output
+python dimred.py graphdr --demo=True --plot3d=True
+
+# Or specify your own file paths
+python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.anno --save=True --plot3d=True
+```
+
+<figure>
+  <img src="./images/demo_graphdr_3d.jpeg", width = "500">
+  <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
+</figure>
+
+_For more examples, please refer to the [Documentation](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Full CLI implementation 
-    - [ ] TSNE attributes
-    - [ ] 
-- [ ] 'Demo' version
-- [ ] Figure out how to document complicated things
-    - [ ] Gains
-    - [ ] Beta/Perplexity
-    - [ ] Tolerance
-- [ ] Clean repo
-    - [x] Separate into folders
-        - data
-        - images
+- [ ] Document GraphDR
+    - [ ] GrapDR method is really sparse on inline comments...
+    - [ ] Higher level understanding/ overview in class docstring would be nice...
+    - [ ] Link to paper/repo page
+- [ ] Document TSNE
+    - [ ] Higher level understanding/ overview in class docstring would be nice...
+    - [ ] Link to paper/repo page
+- [ ] Implement Dash interface
+- [ ] New Single cell dataset for Graphdr
+
+
 
 See the [open issues](https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/issues) for a full list of proposed features (and known issues).
 
@@ -165,6 +266,8 @@ Project Link: [https://github.com/UTSW-Software-Engineering-Course-2022/module_1
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
+
+Huge thanks goes out to this module's instructor and TA!
 
 * [Dr. Jian Zhou](jian.zhou@utsouthwestern.edu)
 * [Chenlai Shi](chenlai.shi@utsouthwestern.edu)

@@ -1,11 +1,9 @@
-""" Provided helper functions
+""" Helper functions
 
-Notes
------
-I (Austin Marckx) am not the author of these functions.
 """
 
 import numpy as np
+from random import randint
 
 def Hbeta(D, beta=1.0):
     """
@@ -119,3 +117,4 @@ def pca(X, no_dims=50):
     _, M = np.linalg.eig(np.dot(X.T, X))
     Y = np.real(np.dot(X, M[:, :no_dims]))
     return Y
+

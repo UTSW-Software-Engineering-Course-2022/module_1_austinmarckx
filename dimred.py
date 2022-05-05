@@ -1,18 +1,42 @@
-"""Usage: dimred.py tsne <datafilepath> <labelsfilepath>
+"""DimRed dimension reduction
 
-datafilepath:
-    --datafilepath=<str>  read in data from file path
+Command line interface::
 
-labelsfilepath:    
-    --labelsfilepath=<str> read in labels from file path
+    Usage: 
+        dimred.py tsne [options] 
+        dimred.py tsne <datafilepath> <labelsfilepath> [options]
+        dimred.py graphdr [options]
+        dimred.py graphdr <datafilepath> <labelsfilepath> [options]
+
+    options:
+        --plot=<bool>        Plot the output     [default: True]
+        --saveplot=<bool>    Save plot           [default: True]
+        --savedata=<bool>    Save output data    [default: True]
+        --hideplot=<bool>    Hide plot output    [default: False]
+        --htmlPlot=<bool>    Plot saved as html  [default: True]
+        --plot3d=<bool>      Plot in 3D          [default: False]
+        --demo=<bool>        Load and run demo   [default: False]
+
+    datafilepath:
+        --datafilepath=<str>  read in data from file path
+
+    labelsfilepath:    
+        --labelsfilepath=<str> read in labels from file path
 
 """
 
 # Imports
 import numpy as np
-import matplotlib.pyplot as plt
+import pandas as pd
+import plotly.express as px
+from sklearn.decomposition import PCA
+from sklearn.neighbors import kneighbors_graph
+from scipy.sparse.csgraph import laplacian
+from scipy.sparse import eye
 from helperfun import adjustbeta, pca
 from docopt import docopt
+from distutils.util import strtobool
+
 
 class TSNE:
     """ TSNE dimensionality reduction
@@ -34,9 +58,9 @@ class TSNE:
         intInitalMomentumSteps : `int` = 20
             Number of iterations with initial momentum
         dTolerance: `float`, default = 1e-5
-            #TODO Figure out what tolerance is
+            Used with Perplexity to approximate stdev of gaussian
         dMinGain : `float`, default = 0.01
-            #TODO Figure out what tolerance is
+            Gain clipped to this minimum value
         intStepSize : `int`, default = 500
             inital step size of gradient descent
         dMinProb : `float`, default = 1e-12
@@ -62,9 +86,9 @@ class TSNE:
         Calc_q_ij
             Probability array representing distance via t-distribution
         Calc_dY
-            Calculate the gradient of ...
+            Calculate the gradient of current step
         Calc_gains
-            #TODO figure out what gains are ...
+            Calculate the gains (optimizing gradient descent)
         TSNE
             Default implementation of TSNE.  Returns dimension reduced array.
     """
@@ -111,9 +135,10 @@ class TSNE:
 
     def SquareEucDist(self, array_nxd: np.ndarray) -> np.ndarray:
         """Pairwise Squared Euclidian distance
-        .. math::
-            \sum_{i \neq j}||x_{i} - x_{j}||^{2}
         
+        .. math::
+            \\sum_{i\\neqj}||x_{i}-x_{j}||^{2}
+
         Parameters
         ----------
         array_nxd : np.ndarray
@@ -223,7 +248,10 @@ class TSNE:
 
     def KLDivergence(self):
         """Calculate the KL Divergence for the current step"""
-        self.KLDiv = np.sum(self.arrInputProbs_ij_mat * np.log(self.arrInputProbs_ij_mat / self.q_ij_mat))
+        self.KLDiv = np.sum(
+            self.arrInputProbs_ij_mat
+            * np.log(self.arrInputProbs_ij_mat / self.q_ij_mat)
+        )
         return self.KLDiv
 
     def TSNE(self) -> np.ndarray:
@@ -261,29 +289,346 @@ class TSNE:
 
             if i % self.intUpdateStepSize == 0:
                 KLDiv = self.KLDivergence()
-                print(f'Step: {i}     KLDiv: {KLDiv}')
+                print(f"Step: {i}     KLDiv: {KLDiv}")
         return self.arrNxNDimsOutput
 
+
+class GraphDR:
+    """ GraphDR Quasilinear Dimensionality Reduction
+   
+    Attributes:
+    ----------
+        pdfInput : `pd.DataFrame`, default = None
+            pandas dataframe containing the data. Should contain only numerical entries
+        pdfAnno : `pd.DataFrame`, default = None
+            pandas dataframe containg data annotations.        
+        intNDims : `int`, default = None
+            Number of columns in the output array
+        intKNeighbors : `int`, default = 10
+            Number of neighbors for sklearn's kneighbors_graph
+        dLambdaRegularization : `float`, default = 10.0
+            Regularization factor for GraphDR
+        boolNoRotation : `bool`, default = True
+            Whether to rotate plot axes
+        strDataFilePath : `str`, default = None
+            The relative file path to a file containing the data.
+            The format of this raw data file should be...
+        strAnnoFilePath : `str`, default = None
+            The relative file path to a file containing the annontations of data.
+            The format of this raw data file should be...
+        boolPreprocessData : `bool`, default = True
+            Whether or not to preprocess the input data file
+        boolDoPCA : `bool`, default = True
+            Whether PCA should be done in the preprocessing
+        intPCANumComponents : `int`, default = 20
+            The number of PCA dimensions fed into sklearn's PCA.
+        boolDemo : `bool`, default = True
+            If True, GraphDR will be run on the Demo dataset.
+        pdfGraphDROutput : `pd.DataFrame`, default = None
+            pandas dataframe holding output data from GraphDR
+
+    Methods
+    -------
+        Preprocess
+            Preps raw data for GraphDR
+        GraphDR
+            Quasilinear dimensionality reduction.
+
+    Notes
+    -----
+    Preprocess utilizes sklearn's PCA
+    GraphDR utilizes sklearn's kneighbors_graph as well as scipy's laplacian
+
+    See Also
+    --------
+    sklearn.decomposition.PCA
+    sklearn.neighbors.kneighbors_graph
+    scipy.sparse.csgraph.laplacian
+
+    """
+
+    def __init__(
+        self,
+        pdfInput=None,
+        pdfAnno=None,
+        intNDims: int = None,
+        intKNeighbors: int = 10,
+        dLambdaRegularization: float = 10,
+        boolNoRotation: bool = True,
+        strDataFilePath: str = None,
+        strAnnoFilePath: str = None,
+        boolPreprocessData: bool = True,
+        boolDoPCA: bool = True,
+        intPCANumComponents: int = 20,
+        boolDemo: bool = True,
+    ) -> None:
+        # Init everything
+        self.pdfInput = pdfInput
+        self.pdfAnno = pdfAnno
+        self.intNDims = intNDims
+        self.intKNeighbors = intKNeighbors
+        self.boolNoRotation = boolNoRotation
+        self.dLambdaRegularization = dLambdaRegularization
+        self.strDataFilePath = strDataFilePath
+        self.strAnnoFilePath = strAnnoFilePath
+        self.pdfGraphDROutput = None
+
+        # Demo mode
+        if boolDemo:
+            self.pdfInput = pd.read_csv(
+                "./data/hochgerner_2018.data.gz", sep="\t", index_col=0
+            )
+            self.pdfAnno = pd.read_csv(
+                "./data/hochgerner_2018.anno", sep="\t", header=None
+            )[1].values
+
+        # If file paths provided
+        if self.strDataFilePath:
+            self.pdfInput = pd.read_csv(self.strDataFilePath, sep="\t", index_col=0)
+        if self.strAnnoFilePath:
+            self.pdfAnno = pd.read_csv(self.strAnnoFilePath, sep="\t", header=None)[
+                1
+            ].values
+
+        # If Preprocess
+        if boolPreprocessData:
+            self.pdfInput = self.Preprocess(
+                self.pdfInput, boolDoPCA, intPCANumComponents
+            )
+
+        # Check for nDims
+        if intNDims:
+            self.intNDims = intNDims
+        else:
+            self.intNDims = self.pdfInput.shape[1]
+
+    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims: int):
+        """ Provided preprocessing
+        
+        This describes what steps are done in preprocessing the data
+
+        Attributes
+        ----------
+        pdfInput : `pd.DataFrame`
+            pandas dataframe containing raw data.
+            (Insert description of preprocessed data)
+        boolDoPCA : `bool`
+            Flag: Should PCA be done?
+        intPCANumDims : `int` 
+            Number of PCA dimensions.
+        
+        Returns
+        -------
+        preprocessed_data : pd.DataFrame
+            preprocessed output dataframe.
+
+        Notes
+        -----
+        The `PCA` implemented here is a wrapper for `sklearn.decomposition.PCA`
+
+        See Also
+        --------
+        sklearn.decomposition.PCA : 
+            PCA implemented in sklearn
+
+        """
+        # We will first normalize each cell by total count per cell.
+        percell_sum = pdfInput.sum(axis=0)
+        pergene_sum = pdfInput.sum(axis=1)
+
+        preprocessed_data = (
+            pdfInput / percell_sum.values[None, :] * np.median(percell_sum)
+        )
+        preprocessed_data = preprocessed_data.values
+
+        # transform the preprocessed_data array by `x := log (1+x)`
+        preprocessed_data = np.log(1 + preprocessed_data)
+
+        # standard scaling
+        preprocessed_data_mean = preprocessed_data.mean(axis=1)
+        preprocessed_data_std = preprocessed_data.std(axis=1)
+        preprocessed_data = (
+            preprocessed_data - preprocessed_data_mean[:, None]
+        ) / preprocessed_data_std[:, None]
+
+        if boolDoPCA:
+            pdfPCA = PCA(n_components=intPCANumDims)
+            pdfPCA.fit(preprocessed_data.T)
+            pcaData = pdfPCA.transform(preprocessed_data.T)
+            return pcaData
+        else:
+            return preprocessed_data
+
+    def GraphDR(self):
+        """ GraphDR Quasilinear Dimensionality Reduction
+        
+        Returns
+        -------
+        pdfGraphDROutput : `pd.DataFrame`
+            Output dataframe after GraphDR has been performed
+
+        """
+        kNNGraph = kneighbors_graph(
+            X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
+        )
+        # Magic thing (symmetrization)
+        kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
+        kNNGraphLaplacian = laplacian(kNNGraph)  # maybe laplacian wants symmetric
+        GMatInverse = np.linalg.inv(
+            (
+                eye(self.pdfInput.shape[0])
+                + self.dLambdaRegularization * kNNGraphLaplacian
+            ).todense()
+        )
+        if self.boolNoRotation:
+            self.pdfGraphDROutput = np.asarray(
+                np.dot(self.pdfInput[:, : self.intNDims].T, GMatInverse).T
+            )
+        else:
+            # W Eigs
+            _, eigs = np.linalg.eigh(
+                np.dot(np.dot(self.pdfInput[:, : self.intNDims].T), self.pdfInput)
+            )
+            eigs = np.array(eigs)[:, ::-1]
+            eigs = eigs[:, : self.intNDims]
+            self.pdfGraphDROutput = np.asarray(
+                np.dot(
+                    np.dot(eigs.T, self.pdfInput[:, : self.intNDims].T), GMatInverse
+                ).T
+            )
+        return self.pdfGraphDROutput
+
+
+def plot(
+    df,
+    intX=0,
+    intY=1,
+    intZ=2,
+    dScale = 3.5,
+    labels=None,
+    bool3D=False,
+    boolSaveFig=False,
+    boolSaveToHTML=True,
+    boolHidePlot = False,
+    dMarkerSize=1.0,
+):
+    """ Plotly 2D and 3D Scatter plots
+
+    Parameters 
+    ----------
+    df : array_like
+        Input data for plotting
+    intX : `int`, default = 0
+        Index of the column to be plotted on the x axis
+    intY : `int`, default = 1
+        Index of the column to be plotted on the y axis
+    intZ : `int`, default = 2
+        Index of the column to be plotted on the z axis
+    dScale : `float`, default 3.5
+        Functions like DPI for saving image
+    labels : 1D.array, default = None
+        A (n, 1) array of labels for annotating df points.  Note row indexes should match between points
+    bool3D : `bool`, default = False
+        If True make 3D scatter plot, otherwise do 2D scatter
+    boolSaveFig : `bool`, default = False
+        If True the plotted figure will be saved.
+    boolSaveToHTML : `bool`, default = True
+        If True, figure saved as html, otherwise saved as jpg
+    boolHidePlot : `bool`, default = False
+        If True, plot is not displayed.
+    dMarkerSize : `float`, default = 1.0
+        Size of points on plot. 
+
+    Notes
+    -----
+    While intX/Y/Z expect `int`, you may be able to pass in a `str` column name if the df is a pd.DataFrame.  This is untested, but should work.
+
+    """
+    # 3D Scatter plot
+    if bool3D:
+        fig = px.scatter_3d(x=df[:, intX], y=df[:, intY], z=df[:, intZ], color=labels)
+    # 2D Scatter plot
+    else:
+        fig = px.scatter(x=df[:, intX], y=df[:, intY], color=labels)
+    fig.update_traces(marker_size=dMarkerSize)
+
+    if boolSaveFig:
+        if boolSaveToHTML:
+            fig.write_html("fig1.html")
+        else:
+            fig.write_image("fig1.jpeg", scale = dScale)
+
+    if not boolHidePlot:
+        fig.show()
+
+
 def main():
+    """Handle CLI Inputs"""
     args = docopt(__doc__)
-    
-    print(f"Loading data from file {args['<datafilepath>']}...")
-    X = np.loadtxt(args['<datafilepath>'])
-    print('load successful.')
-    print('performing pca...')
-    X = pca(X, 50)
-    print('pca complete...')
 
-    labels = np.loadtxt(args['<labelsfilepath>'])
-    print('labels loaded successfully...')
-    
-    print("Run Y = tsne(X, no_dims, perplexity) to perform t-SNE on your dataset.")
-    print("Running example on 2,500 MNIST digits...")
-    tsne = TSNE(X, intMaxIter=100)
-    Y = tsne.TSNE()
+    if bool(args["tsne"]):
+        # Demo version
+        if strtobool(args["--demo"]):
+            print("Welcome to TSNE Demo!")
+            X = np.loadtxt("./data/demo_mnist2500_X.txt")
+            labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
+            X = pca(X, 50)
+            tsne = TSNE(X, intMaxIter=1000)
+            Z = tsne.TSNE()
+            if strtobool(args["--plot"]):
+                plot(
+                    Z,
+                    labels=labels,
+                    boolSaveFig=strtobool(args["--saveplot"]),
+                    boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                    boolHidePlot=strtobool(args['--hideplot']),
+                    dMarkerSize=5
+                )
+        # Perform on filepath inputs
+        else:
+            X = np.loadtxt(args["<datafilepath>"])
+            labels = np.loadtxt(args["<labelsfilepath>"]).astype(str)
+            X = pca(X, 50)
+            tsne = TSNE(X, intMaxIter=20)
+            Z = tsne.TSNE()
+            if strtobool(args["--plot"]):
+                plot(
+                    Z,
+                    labels=labels,
+                    boolSaveFig=strtobool(args["--saveplot"]),
+                    boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                    boolHidePlot=strtobool(args['--hideplot']),
+                    dMarkerSize=5
+                )
 
-    plt.scatter(Y[:, 0], Y[:, 1], 20, labels)
-    plt.savefig("mnist_tsne.png")
+        if strtobool(args["--savedata"]):
+            pd.DataFrame(Z).to_csv("tsne_output.csv")
+
+    elif bool(args["graphdr"]):
+        # Demo Version
+        if strtobool(args["--demo"]):
+            print("Welcome to GraphDR Demo!")
+            GDR = GraphDR(boolDemo=strtobool(args["--demo"]))
+        # Perform on filepath inputs
+        else:
+            GDR = GraphDR(
+                strDataFilePath=args["<datafilepath>"],
+                strAnnoFilePath=args["<labelsfilepath>"],
+            )
+        Z = GDR.GraphDR()
+        labels = GDR.pdfAnno
+        if strtobool(args["--plot"]):
+            plot(
+                Z,
+                labels=labels,
+                bool3D=strtobool(args["--plot3d"]),
+                boolSaveFig=strtobool(args["--saveplot"]),
+                boolSaveToHTML=strtobool(args["--htmlPlot"]),
+                boolHidePlot=strtobool(args['--hideplot'])
+            )
+        if strtobool(args["--savedata"]):
+            pd.DataFrame(Z).to_csv("graphdr_output.csv")
+
 
 if __name__ == "__main__":
     main()
