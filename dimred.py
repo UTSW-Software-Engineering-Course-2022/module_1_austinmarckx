@@ -293,18 +293,51 @@ class GraphDR:
         pdfInput : `pd.DataFrame`, default = None
             pandas dataframe containing the data. Should contain only numerical entries
         pdfAnno : `pd.DataFrame`, default = None
-        
+            pandas dataframe containg data annotations.        
         intNDims : `int`, default = None
             Number of columns in the output array
-        intStepSize : `int`, default = 500
-            inital step size of gradient descent
+        intKNeighbors : `int`, default = 10
+            Number of neighbors for sklearn's kneighbors_graph
+        dLambdaRegularization : `float`, default = 10.0
+            Regularization factor for GraphDR
+        boolNoRotation : `bool`, default = True
+            Whether to rotate
+            # TODO Figure out why this changes stuff so much
+        strDataFilePath : `str`, default = None
+            The relative file path to a file containing the data.
+            The format of this raw data file should be...
+        strAnnoFilePath : `str`, default = None
+            The relative file path to a file containing the annontations of data.
+            The format of this raw data file should be...
+        boolPreprocessData : `bool`, default = True
+            Whether or not to preprocess the input data file
+        boolDoPCA : `bool`, default = True
+            Whether PCA should be done in the preprocessing
+        intPCANumComponents : `int`, default = 20
+            The number of PCA dimensions fed into sklearn's PCA.
+        boolDemo : `bool`, default = True
+            If True, GraphDR will be run on the Demo dataset.
+        pdfGraphDROutput : `pd.DataFrame`, default = None
+            pandas dataframe holding output data from GraphDR
 
     Methods
     -------
-        preprocess
+        Preprocess
             Preps raw data for GraphDR
         GraphDR
             Quasilinear dimensionality reduction.
+
+    Notes
+    -----
+    Preprocess utilizes sklearn's PCA
+    GraphDR utilizes sklearn's kneighbors_graph as well as scipy's laplacian
+
+    See Also
+    --------
+    sklearn.decomposition.PCA
+    sklearn.neighbors.kneighbors_graph
+    scipy.sparse.csgraph.laplacian
+
     """
 
     def __init__(
@@ -352,7 +385,9 @@ class GraphDR:
 
         # If Preprocess
         if boolPreprocessData:
-            self.pdfInput = self.preprocess(self.pdfInput, boolDoPCA, intPCANumComponents)
+            self.pdfInput = self.Preprocess(
+                self.pdfInput, boolDoPCA, intPCANumComponents
+            )
 
         # Check for nDims
         if intNDims:
@@ -360,7 +395,7 @@ class GraphDR:
         else:
             self.intNDims = self.pdfInput.shape[1]
 
-    def preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims: int):
+    def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims: int):
         """ Provided preprocessing
         
         This describes what steps are done in preprocessing the data
@@ -420,6 +455,11 @@ class GraphDR:
     def GraphDR(self):
         """ Document why the hell this works
         
+        Returns
+        -------
+        pdfGraphDROutput : 'pd.DataFrame'
+            Output dataframe after GraphDR has been performed
+
         """
         kNNGraph = kneighbors_graph(
             X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
@@ -463,7 +503,29 @@ def plot(
     boolSaveToHTML=True,
     dMarkerSize=1.0,
 ):
-    """ Simple 2D and 3D Scatter plot options
+    """ Plotly 2D and 3D Scatter plots
+
+    Parameters 
+    ----------
+    df : array_like
+        Input data for plotting
+    intX : `int`, default = 0
+        Index of the column to be plotted on the x axis
+    intY : `int`, default = 1
+        Index of the column to be plotted on the y axis
+    intZ : `int`, default = 2
+        Index of the column to be plotted on the z axis
+    labels : 1D.array, default = None
+        A (n, 1) array of labels for annotating df points.  Note row indexes should match between points
+    bool3D : `bool`, default = False
+        If True make 3D scatter plot, otherwise do 2D scatter
+    boolSaveFig : `bool`, default = False
+        If True the plotted figure will be saved.
+    boolSaveToHTML : `bool`, default = True
+        If True, figure saved as html, otherwise saved as jpg
+    dMarkerSize : `float`, default = 1.0
+        Size of points on plot.  
+
     """
     # 3D Scatter plot
     if bool3D:
@@ -478,11 +540,12 @@ def plot(
             fig.write_html("fig1.html")
         else:
             fig.write_image("fig1.jpeg")
-    
+
     fig.show()
 
 
 def main():
+    """Handle CLI Inputs"""
     args = docopt(__doc__)
 
     if bool(args["tsne"]):
