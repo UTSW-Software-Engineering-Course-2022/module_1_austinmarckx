@@ -5,11 +5,12 @@
     dimred.py graphdr <datafilepath> <labelsfilepath> [options]
 
 options:
-    -p --plot=<bool>   Plot the output          [default: True]
-    -s --save=<bool>   Save plot                [default: True]
-    --htmlPlot=<bool>  Plot saved as html       [default: True]
-    --plot3d=<bool>    Plot in 3D               [default: False]
-    --demo=<bool>      Load and run demo        [default: False]
+    -p --plot=<bool>        Plot the output     [default: True]
+    -s --saveplot=<bool>    Save plot           [default: True]
+    -o --savedata=<bool>    Save output data    [default: True]
+    --htmlPlot=<bool>       Plot saved as html  [default: True]
+    --plot3d=<bool>         Plot in 3D          [default: False]
+    --demo=<bool>           Load and run demo   [default: False]
 
 datafilepath:
     --datafilepath=<str>  read in data from file path
@@ -51,9 +52,9 @@ class TSNE:
         intInitalMomentumSteps : `int` = 20
             Number of iterations with initial momentum
         dTolerance: `float`, default = 1e-5
-            #TODO Figure out what tolerance is
+            Used with Perplexity to approximate stdev of gaussian
         dMinGain : `float`, default = 0.01
-            #TODO Figure out what tolerance is
+            Gain clipped to this minimum value
         intStepSize : `int`, default = 500
             inital step size of gradient descent
         dMinProb : `float`, default = 1e-12
@@ -79,9 +80,9 @@ class TSNE:
         Calc_q_ij
             Probability array representing distance via t-distribution
         Calc_dY
-            Calculate the gradient of ...
+            Calculate the gradient of current step
         Calc_gains
-            #TODO figure out what gains are ...
+            Calculate the gains (optimizing gradient descent)
         TSNE
             Default implementation of TSNE.  Returns dimension reduced array.
     """
@@ -524,7 +525,11 @@ def plot(
     boolSaveToHTML : `bool`, default = True
         If True, figure saved as html, otherwise saved as jpg
     dMarkerSize : `float`, default = 1.0
-        Size of points on plot.  
+        Size of points on plot. 
+
+    Notes
+    -----
+    While intX/Y/Z expect `int`, you may be able to pass in a `str` column name if the df is a pd.DataFrame.  This is untested, but should work.
 
     """
     # 3D Scatter plot
@@ -557,11 +562,11 @@ def main():
             X = pca(X, 50)
             tsne = TSNE(X, intMaxIter=10)
             Z = tsne.TSNE()
-            if args["--plot"]:
+            if args["--saveplot"]:
                 plot(
                     Z,
                     labels=labels,
-                    boolSaveFig=args["--save"],
+                    boolSaveFig=args["--saveplot"],
                     boolSaveToHTML=args["--htmlPlot"],
                     dMarkerSize=5,
                 )
@@ -576,10 +581,13 @@ def main():
                 plot(
                     Z,
                     labels=labels,
-                    boolSaveFig=args["--save"],
+                    boolSaveFig=args["--saveplot"],
                     boolSaveToHTML=args["--htmlPlot"],
                     dMarkerSize=5,
                 )
+
+        if args['--savedata']:
+            pd.DataFrame(Z).to_csv('output.csv')
 
     elif bool(args["graphdr"]):
         # Demo Version
@@ -599,10 +607,11 @@ def main():
                 Z,
                 labels=labels,
                 bool3D=args["--plot3d"],
-                boolSaveFig=args["--save"],
+                boolSaveFig=args["--saveplot"],
                 boolSaveToHTML=args["--htmlPlot"],
             )
-
+        if args['--savedata']:
+            pd.DataFrame(Z).to_csv('output.csv')
 
 if __name__ == "__main__":
     main()
