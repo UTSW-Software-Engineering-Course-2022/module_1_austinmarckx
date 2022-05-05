@@ -186,8 +186,10 @@ python dimred.py tsne --demo=True
 # Or specify your own file paths
 python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.txt  
 ```
-
-<img src="./images/demo_mnist_tsne_1000.png", caption="Fig 1. TSNE demo data; 1000 steps", width = "500">
+<figure>
+  <img src="./images/demo_mnist_tsne_1000.png", width = "500">
+  <figcaption>Fig 1. TSNE on Demo Data (1000 steps).</figcaption>
+</figure>
 
 #### GraphDR
 ```sh
