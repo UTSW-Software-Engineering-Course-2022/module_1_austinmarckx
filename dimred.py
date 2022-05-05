@@ -465,7 +465,7 @@ class GraphDR:
         kNNGraph = kneighbors_graph(
             X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
         )
-        # Magic thing
+        # Magic thing (symmetrization)
         kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
         kNNGraphLaplacian = laplacian(kNNGraph)
         GMatInverse = np.linalg.inv(
@@ -556,7 +556,7 @@ def main():
     if bool(args["tsne"]):
         # Demo version
         # BUG: this switch based on args['--demo'] is not working.  
-        if bool(args["--demo"]) == True:
+        if args["--demo"] == 'True':
             print("Welcome to TSNE Demo!")
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
             labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
@@ -593,7 +593,7 @@ def main():
     elif bool(args["graphdr"]):
         # Demo Version
         # BUG: this switch based on args['--demo'] is not working.
-        if bool(args["--demo"]) == True:
+        if args["--demo"] == 'True':
             print("Welcome to GraphDR Demo!")
             GDR = GraphDR(boolDemo=args["--demo"])
         # Perform on filepath inputs
