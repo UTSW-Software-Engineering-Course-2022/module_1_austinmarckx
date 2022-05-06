@@ -105,7 +105,7 @@ Anaconda is the recommended virtual environement manager.  Below demonstrates ho
 conda create --name dimred python=3.9 -y
 conda activate dimred
 # If you are not in the module directory go there now
-# cd path/to/dimred
+# cd path/to/repo
 pip install -r requirements.txt
 ```
 
@@ -184,8 +184,6 @@ tsne = TSNE(X.pdfInput, intMaxIter=100)
 tsneOutput = tsne.TSNE()
 
 # Plot.
-# If SaveToHTML is false then the figure is saved as jpeg.
-# Note: if you want to run this in jupyter, you may need to install kaleido
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
@@ -209,8 +207,6 @@ tsne = TSNE(X.GraphDR(), intMaxIter=100)
 tsneOutput = tsne.TSNE()
 
 # Plot.
-# If SaveToHTML is false then the figure is saved as jpeg.
-# Note: if you want to run this in jupyter, you may need to install kaleido
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
