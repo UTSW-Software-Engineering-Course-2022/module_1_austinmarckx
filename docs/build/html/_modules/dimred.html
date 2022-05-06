@@ -372,7 +372,8 @@
 <span class="sd">            - Columns should be &#39;cells&#39;</span>
 <span class="sd">            - Rows should be &#39;genes&#39;</span>
 <span class="sd">        pdfAnno : `pd.DataFrame`, default = None</span>
-<span class="sd">            pandas dataframe containg data annotations.        </span>
+<span class="sd">            pandas dataframe containg data annotations.</span>
+<span class="sd">            Data should be 1D array of annotations index matched with pdfInput      </span>
 <span class="sd">        intNDims : `int`, default = None</span>
 <span class="sd">            Number of columns in the output array</span>
 <span class="sd">        intKNeighbors : `int`, default = 10</span>
@@ -383,10 +384,10 @@
 <span class="sd">            Whether to rotate plot axes</span>
 <span class="sd">        strDataFilePath : `str`, default = None</span>
 <span class="sd">            The relative file path to a file containing the data.</span>
-<span class="sd">            The format of this raw data file should be...</span>
+<span class="sd">            See pdfInput for formatting details </span>
 <span class="sd">        strAnnoFilePath : `str`, default = None</span>
 <span class="sd">            The relative file path to a file containing the annontations of data.</span>
-<span class="sd">            The format of this raw data file should be...</span>
+<span class="sd">            See pdfAnno for formatting details</span>
 <span class="sd">        boolPreprocessData : `bool`, default = True</span>
 <span class="sd">            Whether or not to preprocess the input data file</span>
 <span class="sd">        boolDoPCA : `bool`, default = True</span>
