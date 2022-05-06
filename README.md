@@ -287,13 +287,6 @@ _For more examples, please refer to the <a href="https://github.com/UTSW-Softwar
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Document GraphDR
-    - [ ] GrapDR method is really sparse on inline comments...
-    - [ ] Higher level understanding/ overview in class docstring would be nice...
-    - [ ] Link to paper/repo page
-- [ ] Document TSNE
-    - [ ] Higher level understanding/ overview in class docstring would be nice...
-    - [ ] Link to paper/repo page
 - [ ] Implement Dash interface
 - [ ] New Single cell dataset for Graphdr
 
