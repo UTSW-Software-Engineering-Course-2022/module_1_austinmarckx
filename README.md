@@ -142,7 +142,7 @@ tsneOutput = tsne.TSNE()
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
-See figure 1 (below) for plot output.
+See figure 3 (below) for plot output.
 
 #### GraphDR
 
@@ -164,7 +164,7 @@ labels = GDR.pdfAnno
 plot(GDROutput, labels=labels, boolSaveFig=True, boolSaveToHTML=True)
 ```
 
-See figures 2 and 3 (below) for plot output.
+See figures 4 and 5 (below) for plot output.
 
 Note that if a file path is passed into GraphDR, the default read option is identical to option 1.
 
@@ -189,6 +189,12 @@ tsneOutput = tsne.TSNE()
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
 
+<figure>
+  <img src="./images/bones_tsne_100.jpeg", width = "640">
+  <figcaption><b>Fig 1.</b> TSNE on Bones Data (100 steps).</figcaption>
+</figure>
+
+
 If you wish to get really fancy, you can _COMBINE_ GraphDR and TSNE! Below demonstrates how you can feed the graphdr output into the TSNE!
 
 ```sh
@@ -207,6 +213,12 @@ tsneOutput = tsne.TSNE()
 # Note: if you want to run this in jupyter, you may need to install kaleido
 plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
 ```
+
+<figure>
+  <img src="./images/bones_graphdr_and_tsne_100.jpeg.jpeg", width = "640">
+  <figcaption><b>Fig 2.</b> GraphDR + TSNE on Bones Data (100 steps).</figcaption>
+</figure>
+
 
 ### CLI usage
 ```sh
@@ -244,7 +256,7 @@ python dimred.py tsne ./data/demo_mnist2500_X.txt ./data/demo_mnist2500_labels.t
 
 <figure>
   <img src="./images/demo_tsne_1000.jpeg", width = "640">
-  <figcaption><b>Fig 1.</b> TSNE on Demo Data (1000 steps).</figcaption>
+  <figcaption><b>Fig 3.</b> TSNE on Demo Data (1000 steps).</figcaption>
 </figure>
 
 #### GraphDR
@@ -256,7 +268,7 @@ python dimred.py graphdr --demo=True
 
 <figure>
   <img src="./images/demo_graphdr_2d.jpeg", width = "640">
-  <figcaption> <b>Fig 2.</b> 2D GraphDR on Demo Data.</figcaption>
+  <figcaption> <b>Fig 4.</b> 2D GraphDR on Demo Data.</figcaption>
 </figure>
 
 ```sh
@@ -269,7 +281,7 @@ python dimred.py graphdr ./data/hochgerner_2018.data.gz ./data/hochgerner_2018.a
 
 <figure>
   <img src="./images/demo_graphdr_3d.jpeg", width = "640">
-  <figcaption> <b>Fig 3.</b> 3D GraphDR on Demo Data.</figcaption>
+  <figcaption> <b>Fig 5.</b> 3D GraphDR on Demo Data.</figcaption>
 </figure>
 
 _For more examples, please refer to the <a href="https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx/docs/build/html/index.html">Documentation</a>_
