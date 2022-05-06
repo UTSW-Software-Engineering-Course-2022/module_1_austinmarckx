@@ -26,6 +26,9 @@ def Hbeta(D, beta=1.0):
     """
     num = np.exp(-D * beta)
     den = np.sum(np.exp(-D * beta), 0)
+    # Fix denom to avoid nan
+    den = np.where(den == 0, 1, den)
+
     P = num / den
     H = np.log(den) + beta * np.sum(D * num) / (den)
     return H, P

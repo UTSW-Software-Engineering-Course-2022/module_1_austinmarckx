@@ -203,6 +203,8 @@ class TSNE:
         # Calc Pij from Probability matrix P
         num = self.arrInputProbs + self.arrInputProbs.T
         denom = np.sum(num)
+        # Fix denom to avoid nan
+        denom = np.where(denom == 0, 1, denom)
         # Num / denom; exaggerate (*4) and clip (1e-12)
         self.arrInputProbs_ij_mat = (
             self.dEarlyExaggerationFactor * (num / denom) + self.dMinProb
@@ -224,6 +226,8 @@ class TSNE:
         # Set diag to 0.0
         np.fill_diagonal(num, 0.0)
         denom = np.sum(num)
+        # Fix denom to avoid nan
+        denom = np.where(denom == 0, 1, denom)
         # num/denom then clip
         self.q_ij_mat = (num / denom) + self.dMinProb
         return self.q_ij_mat
@@ -300,6 +304,8 @@ class GraphDR:
     ----------
         pdfInput : `pd.DataFrame`, default = None
             pandas dataframe containing the data. Should contain only numerical entries
+            - Columns should be 'cells'
+            - Rows should be 'genes'
         pdfAnno : `pd.DataFrame`, default = None
             pandas dataframe containg data annotations.        
         intNDims : `int`, default = None
@@ -404,8 +410,11 @@ class GraphDR:
 
     def Preprocess(self, pdfInput, boolDoPCA: bool, intPCANumDims=None):
         """ Provided preprocessing
-        
-        This describes what steps are done in preprocessing the data
+        Stepwise overview:
+        1) Normalize by count per cell
+        2) Log Transform
+        3) Standard Scaling
+        4) Do PCA (optional)
 
         Attributes
         ----------
@@ -470,11 +479,18 @@ class GraphDR:
         pdfGraphDROutput : `pd.DataFrame`
             Output dataframe after GraphDR has been performed
 
+        Notes
+        -----
+        The laplacian function utilized here requires symmetrical matrix to work properly
+
+        See Also
+        --------
+
         """
         kNNGraph = kneighbors_graph(
             X=np.asarray(self.pdfInput), n_neighbors=self.intKNeighbors
         )
-        # Magic thing (symmetrization)
+        # Matrix symmetrization
         kNNGraph = 0.5 * (kNNGraph + kNNGraph.T)
         kNNGraphLaplacian = laplacian(kNNGraph)  # maybe laplacian wants symmetric
         GMatInverse = np.linalg.inv(
@@ -489,14 +505,14 @@ class GraphDR:
             )
         else:
             # W Eigs
-            _, eigs = np.linalg.eigh(
-                np.dot(np.dot(self.pdfInput[:, : self.intNDims].T), self.pdfInput)
+            eigVal, eigVect = np.linalg.eigh(
+                np.dot(np.dot(self.pdfInput[:, :self.intNDims].T), self.pdfInput)
             )
-            eigs = np.array(eigs)[:, ::-1]
-            eigs = eigs[:, : self.intNDims]
+            eigVect = np.array(eigVect)[:, ::-1]
+            eigVect = eigVect[:, :self.intNDims]
             self.pdfGraphDROutput = np.asarray(
                 np.dot(
-                    np.dot(eigs.T, self.pdfInput[:, : self.intNDims].T), GMatInverse
+                    np.dot(eigVect.T, self.pdfInput[:, : self.intNDims].T), GMatInverse
                 ).T
             )
         return self.pdfGraphDROutput
@@ -576,7 +592,7 @@ def main():
             X = np.loadtxt("./data/demo_mnist2500_X.txt")
             labels = np.loadtxt("./data/demo_mnist2500_labels.txt").astype(str)
             X = pca(X, 50)
-            tsne = TSNE(X, intMaxIter=1000)
+            tsne = TSNE(X, intMaxIter=100)
             Z = tsne.TSNE()
             if strtobool(args["--plot"]):
                 plot(
