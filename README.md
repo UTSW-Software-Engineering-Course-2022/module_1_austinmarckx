@@ -168,6 +168,46 @@ See figures 2 and 3 (below) for plot output.
 
 Note that if a file path is passed into GraphDR, the default read option is identical to option 1.
 
+#### GraphDR + TSNE
+
+TSNE does not have any build in preprocessing and requires a processed dataset as input.  GraphDR, on the other hand has preprocessing built in.  Below demonstrates how GraphDR preprocessing can be used for TSNE.
+
+```sh
+from dimred import TSNE, GraphDR, plot
+
+# Load your data
+X = GraphDR(strDataFilePath='./data/BONES_data.tsv.gz',strAnnoFilePath='./data/BONES_anno.tsv.gz' )
+labels = X.pdfAnno
+
+# Max iterations default: 1000, change for more/less clustering and runtime
+tsne = TSNE(X.pdfInput, intMaxIter=100)
+tsneOutput = tsne.TSNE()
+
+# Plot.
+# If SaveToHTML is false then the figure is saved as jpeg.
+# Note: if you want to run this in jupyter, you may need to install kaleido
+plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
+```
+
+If you wish to get really fancy, you can _COMBINE_ GraphDR and TSNE! Below demonstrates how you can feed the graphdr output into the TSNE!
+
+```sh
+from dimred import TSNE, GraphDR, plot
+
+# Load your data
+X = GraphDR(strDataFilePath='./data/BONES_data.tsv.gz',strAnnoFilePath='./data/BONES_anno.tsv.gz' )
+labels = X.pdfAnno
+
+# Max iterations default: 1000, change for more/less clustering and runtime
+tsne = TSNE(X.GraphDR(), intMaxIter=100)
+tsneOutput = tsne.TSNE()
+
+# Plot.
+# If SaveToHTML is false then the figure is saved as jpeg.
+# Note: if you want to run this in jupyter, you may need to install kaleido
+plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerSize = 5)
+```
+
 ### CLI usage
 ```sh
 # CLI Usage
