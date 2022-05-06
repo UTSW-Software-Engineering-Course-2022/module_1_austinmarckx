@@ -84,18 +84,30 @@ Here we implement two non-linear dimensionality reduction methods.  Links to the
 <!-- GETTING STARTED -->
 ## Getting Started
 
+*Clone the repository*
+  ```sh
+  git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
+  ```
+
 ### Prerequisites
 
-Requirements for running the modules are listed in `requirements.txt`. These can be directly installed with pip using the following command:
+Requirements for running the modules are listed in `requirements.txt`. These can be directly installed to your virtual environement with pip using the following command:
 ```sh
 pip install -r requirements.txt
 ```
 
 ### Installation
 
-  ```sh
-  git clone https://github.com/UTSW-Software-Engineering-Course-2022/module_1_austinmarckx.git
-  ```
+*Set up your virtual env*
+Anaconda is the recommended virtual environement manager.  Below demonstrates how to set up dimred using conda
+
+```sh
+conda create --name dimred python -y
+conda activate dimred
+pip install -r requirements.txt
+```
+
+Once everything has been installed you can begin running the usage examples! 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
