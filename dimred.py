@@ -307,7 +307,8 @@ class GraphDR:
             - Columns should be 'cells'
             - Rows should be 'genes'
         pdfAnno : `pd.DataFrame`, default = None
-            pandas dataframe containg data annotations.        
+            pandas dataframe containg data annotations.
+            Data should be 1D array of annotations index matched with pdfInput      
         intNDims : `int`, default = None
             Number of columns in the output array
         intKNeighbors : `int`, default = 10
@@ -318,10 +319,10 @@ class GraphDR:
             Whether to rotate plot axes
         strDataFilePath : `str`, default = None
             The relative file path to a file containing the data.
-            The format of this raw data file should be...
+            See pdfInput for formatting details 
         strAnnoFilePath : `str`, default = None
             The relative file path to a file containing the annontations of data.
-            The format of this raw data file should be...
+            See pdfAnno for formatting details
         boolPreprocessData : `bool`, default = True
             Whether or not to preprocess the input data file
         boolDoPCA : `bool`, default = True

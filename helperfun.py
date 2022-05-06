@@ -1,5 +1,7 @@
 """ Helper functions
 
+Functions provided by Dr. Jian Zhou and Chenlai Shi.
+
 """
 
 import numpy as np
