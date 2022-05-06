@@ -215,7 +215,7 @@ plot(tsneOutput, labels=labels, boolSaveFig=True, boolSaveToHTML=False, dMarkerS
 ```
 
 <figure>
-  <img src="./images/bones_graphdr_and_tsne_100.jpeg.jpeg", width = "640">
+  <img src="./images/bones_graphdr_and_tsne_100.jpeg", width = "640">
   <figcaption><b>Fig 2.</b> GraphDR + TSNE on Bones Data (100 steps).</figcaption>
 </figure>
 
